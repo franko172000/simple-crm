@@ -3,12 +3,15 @@ require('./bootstrap');
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+const VeeValidate   = require('vee-validate');
+
 //import './registerServiceWorker'
-import ArgonDashboard from './plugins/argon-dashboard'
+import CRMDashboard from './plugins/crmdashboard'
 
 Vue.config.productionTip = false
 
-Vue.use(ArgonDashboard)
+Vue.use(CRMDashboard)
+Vue.use(VeeValidate);
 new Vue({
   router,
   render: h => h(App)
