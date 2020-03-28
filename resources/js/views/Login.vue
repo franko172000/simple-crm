@@ -7,15 +7,23 @@
                             <base-input class="input-group-alternative mb-3"
                                         placeholder="Email"
                                         addon-left-icon="ni ni-email-83"
+                                        :class="{'is-invalid':errors.has('email')}" 
+                                        v-validate="'required|email'" 
+                                        name="email"
                                         v-model="model.email">
                             </base-input>
+                            <span v-show="errors.has('email')">{{errors.first('email')}}</span>
 
                             <base-input class="input-group-alternative"
                                         placeholder="Password"
                                         type="password"
                                         addon-left-icon="ni ni-lock-circle-open"
+                                        :class="{'is-invalid':errors.has('password')}" 
+                                        v-validate="'required'" 
+                                        name="password"
                                         v-model="model.password">
                             </base-input>
+                             <span v-show="errors.has('password')">{{errors.first('password')}}</span>
 
                             
                             <div class="text-center">
@@ -44,20 +52,40 @@
     },
     methods:{
         loginUser(){
-            this.buttonText = "Loggin in...";
-            userRepo.login(this.model)
-            .then(res=>{
-                this.buttonText = "Sign in";
-                let userData = res.data.data.user;
-                    tokenService.setUserData({
-                        name : userData.name,
-                    });
-                this.$router.push('./')
-            })
-            .catch(err=>{
-                console.log(err)
-            })
-        }
+            this.$validator.validate().then(valid => {
+                    if(valid){
+                        this.buttonText = "Loggin in...";
+                        userRepo.login(this.model)
+                        .then(res=>{
+                            this.buttonText = "Sign in";
+                            let userData = res.data.data.user;
+                                tokenService.setUserData({
+                                    name : userData.name,
+                                });
+                            this.$router.push('./')
+                        })
+                        .catch(err=>{
+                            console.log(err)
+                        })
+                    }
+                })
+        },
+        customValidator(){
+                return {
+                    custom:{
+                        email:{
+                            required:"Please enter email",
+                        },
+                        password:{
+                            required:"Please enter password",
+                        }
+                    }
+                }
+            },
+    },
+    mounted(){
+        //initilaize the validator
+        this.$validator.localize('en',this.customValidator());
     }
   }
 </script>

@@ -781,6 +781,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -798,19 +806,39 @@ __webpack_require__.r(__webpack_exports__);
     loginUser: function loginUser() {
       var _this = this;
 
-      this.buttonText = "Loggin in...";
-      _repository_users_UserRepository__WEBPACK_IMPORTED_MODULE_0__["default"].login(this.model).then(function (res) {
-        _this.buttonText = "Sign in";
-        var userData = res.data.data.user;
-        _services_TokenService__WEBPACK_IMPORTED_MODULE_1___default.a.setUserData({
-          name: userData.name
-        });
+      this.$validator.validate().then(function (valid) {
+        if (valid) {
+          _this.buttonText = "Loggin in...";
+          _repository_users_UserRepository__WEBPACK_IMPORTED_MODULE_0__["default"].login(_this.model).then(function (res) {
+            _this.buttonText = "Sign in";
+            var userData = res.data.data.user;
+            _services_TokenService__WEBPACK_IMPORTED_MODULE_1___default.a.setUserData({
+              name: userData.name
+            });
 
-        _this.$router.push('./');
-      })["catch"](function (err) {
-        console.log(err);
+            _this.$router.push('./');
+          })["catch"](function (err) {
+            console.log(err);
+          });
+        }
       });
+    },
+    customValidator: function customValidator() {
+      return {
+        custom: {
+          email: {
+            required: "Please enter email"
+          },
+          password: {
+            required: "Please enter password"
+          }
+        }
+      };
     }
+  },
+  mounted: function mounted() {
+    //initilaize the validator
+    this.$validator.localize('en', this.customValidator());
   }
 });
 
@@ -2711,10 +2739,20 @@ var render = function() {
             { attrs: { role: "form" } },
             [
               _c("base-input", {
+                directives: [
+                  {
+                    name: "validate",
+                    rawName: "v-validate",
+                    value: "required|email",
+                    expression: "'required|email'"
+                  }
+                ],
                 staticClass: "input-group-alternative mb-3",
+                class: { "is-invalid": _vm.errors.has("email") },
                 attrs: {
                   placeholder: "Email",
-                  "addon-left-icon": "ni ni-email-83"
+                  "addon-left-icon": "ni ni-email-83",
+                  name: "email"
                 },
                 model: {
                   value: _vm.model.email,
@@ -2725,12 +2763,37 @@ var render = function() {
                 }
               }),
               _vm._v(" "),
+              _c(
+                "span",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.errors.has("email"),
+                      expression: "errors.has('email')"
+                    }
+                  ]
+                },
+                [_vm._v(_vm._s(_vm.errors.first("email")))]
+              ),
+              _vm._v(" "),
               _c("base-input", {
+                directives: [
+                  {
+                    name: "validate",
+                    rawName: "v-validate",
+                    value: "required",
+                    expression: "'required'"
+                  }
+                ],
                 staticClass: "input-group-alternative",
+                class: { "is-invalid": _vm.errors.has("password") },
                 attrs: {
                   placeholder: "Password",
                   type: "password",
-                  "addon-left-icon": "ni ni-lock-circle-open"
+                  "addon-left-icon": "ni ni-lock-circle-open",
+                  name: "password"
                 },
                 model: {
                   value: _vm.model.password,
@@ -2740,6 +2803,21 @@ var render = function() {
                   expression: "model.password"
                 }
               }),
+              _vm._v(" "),
+              _c(
+                "span",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.errors.has("password"),
+                      expression: "errors.has('password')"
+                    }
+                  ]
+                },
+                [_vm._v(_vm._s(_vm.errors.first("password")))]
+              ),
               _vm._v(" "),
               _c(
                 "div",
