@@ -1,0 +1,122 @@
+.alert-toastf.alert-has-icon {
+    display: flex;
+}
+.alert-toastf.alert-secondary {
+    background-color: #ffa705;
+}
+.alert-toastf.alert-warning {
+    background-color: #f0ad4e;
+}
+.alert-toastf.alert-info {
+    background-color: #007bff;
+}
+.alert-toastf.alert-light {
+    background-color: #dce1e5;
+    color: #3b3d55;
+}
+.alert-toastf.alert-danger {
+    background-color: #d9534f;
+}
+.alert-toastf.alert-success {
+    background-color: #5cb85c;
+}
+.alert-toastf.alert-primary {
+    background-color: #563d7c;
+}
+.alert-toastf.alert-dark {
+    background-color: #3b3d55;
+}
+.alert-toastf {
+    color: #fff;
+    border: none;
+    padding: 15px 20px;
+    margin-bottom: 1rem;
+    border-radius: .25rem;
+    max-width: 30%;
+}
+.alert-position{
+    position: fixed ; z-index: 999
+}
+.default{
+    top: 1em; right: 1em;
+}
+.top-center{
+    top: 1em; left:50%; margin :0 auto;
+}
+.top-left{
+    top: 1em; left: 1em;
+}
+.top-right{
+    top: 1em; right: 1em;
+}
+.bottom-left{
+    bottom: 1em; left: 1em;
+}
+.bottom-right{
+    bottom: 1em; right: 1em;
+}
+.bottom-center{
+    bottom: 1em; left:50%; margin :0 auto;
+}
+.fadein{
+    -webkit-animation: fadein 2s linear forwards;
+    animation: fadein 2s linear forwards;
+}
+.slide-in-left{
+    left : -400px;
+    -webkit-animation: slide-left 0.5s linear forwards;
+    animation: slide-left 0.5s linear forwards;
+}
+.slide-out-left{
+    left : 1em;
+    -webkit-animation: slide-left-out 0.5s linear forwards;
+    animation: slide-left-out 0.5s linear forwards;
+}
+.slide-in-right{
+    right : -400px;
+    -webkit-animation: slide-right 0.5s linear forwards;
+    animation: slide-right 0.5s linear forwards;
+}
+.slide-out-right{
+    right : 1em;
+    -webkit-animation: slide-right-out 0.5s linear forwards;
+    animation: slide-right-out 0.5s linear forwards;
+}
+@-webkit-keyframes fadein {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+@keyframes fadein {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@-webkit-keyframes slide-left {
+    100% { left: 1em; }
+}
+
+@keyframes slide-left {
+    100% { left: 1em; }
+}
+
+@-webkit-keyframes slide-left-out {
+    100% { left: -600px; }
+}
+@keyframes slide-left-out {
+    100% { left: -600px; }
+}
+
+@-webkit-keyframes slide-right {
+    100% { right: 1em; }
+}
+@keyframes slide-right {
+    100% { right: 1em; }
+}
+
+@-webkit-keyframes slide-right-out {
+    100% { right: -600px; }
+}
+
+@keyframes slide-right-out {
+    100% { right: -600px; }
+}

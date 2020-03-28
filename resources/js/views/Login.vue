@@ -12,7 +12,7 @@
                                         name="email"
                                         v-model="model.email">
                             </base-input>
-                            <span v-show="errors.has('email')">{{errors.first('email')}}</span>
+                            <span class="is_invalid" v-show="errors.has('email')">{{errors.first('email')}}</span>
 
                             <base-input class="input-group-alternative"
                                         placeholder="Password"
@@ -23,7 +23,7 @@
                                         name="password"
                                         v-model="model.password">
                             </base-input>
-                             <span v-show="errors.has('password')">{{errors.first('password')}}</span>
+                             <span class="is_invalid" v-show="errors.has('password')">{{errors.first('password')}}</span>
 
                             
                             <div class="text-center">
@@ -39,6 +39,7 @@
 <script>
   import userRepo from '../repository/users/UserRepository'
   import tokenService from '../services/TokenService'
+  import ToastF from '../plugins/ToastF'
   export default {
     name: 'login',
     data() {
@@ -62,10 +63,22 @@
                                 tokenService.setUserData({
                                     name : userData.name,
                                 });
+
+                             ToastF({
+                                message:"Login successful",
+                                type:'success',
+                                animation:'slide'
+                            })   
                             this.$router.push('./')
                         })
                         .catch(err=>{
-                            console.log(err)
+                            if(err.status === 404){
+                                ToastF({
+                                message:"Account not found",
+                                type:'error',
+                                animation:'slide'
+                            })
+                            }
                         })
                     }
                 })
@@ -90,4 +103,8 @@
   }
 </script>
 <style>
+    .is_invalid{
+        font-size: 11px;
+        color: red;
+    }
 </style>
