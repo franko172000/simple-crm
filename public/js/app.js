@@ -3848,31 +3848,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'sidebar',
@@ -4492,8 +4467,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _DashboardNavbar_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DashboardNavbar.vue */ "./resources/js/layout/DashboardNavbar.vue");
 /* harmony import */ var _ContentFooter_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ContentFooter.vue */ "./resources/js/layout/ContentFooter.vue");
 /* harmony import */ var vue2_transitions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue2-transitions */ "./node_modules/vue2-transitions/dist/vue2-transitions.m.js");
-//
-//
 //
 //
 //
@@ -38310,15 +38283,7 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c("ul", { staticClass: "navbar-nav" }, [_vm._t("links")], 2),
-              _vm._v(" "),
-              _c("hr", { staticClass: "my-3" }),
-              _vm._v(" "),
-              _c("h6", { staticClass: "navbar-heading text-muted" }, [
-                _vm._v("Documentation")
-              ]),
-              _vm._v(" "),
-              _vm._m(0)
+              _c("ul", { staticClass: "navbar-nav" }, [_vm._t("links")], 2)
             ]
           )
         ],
@@ -38327,65 +38292,7 @@ var render = function() {
     ]
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "navbar-nav mb-md-3" }, [
-      _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          {
-            staticClass: "nav-link",
-            attrs: {
-              href:
-                "https://demos.creative-tim.com/vue-argon-dashboard/documentation"
-            }
-          },
-          [
-            _c("i", { staticClass: "ni ni-spaceship" }),
-            _vm._v(" Getting started\n                    ")
-          ]
-        )
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          {
-            staticClass: "nav-link",
-            attrs: {
-              href:
-                "https://demos.creative-tim.com/vue-argon-dashboard/documentation/foundation/colors.html"
-            }
-          },
-          [
-            _c("i", { staticClass: "ni ni-palette" }),
-            _vm._v(" Foundation\n                    ")
-          ]
-        )
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          {
-            staticClass: "nav-link",
-            attrs: {
-              href:
-                "https://demos.creative-tim.com/vue-argon-dashboard/documentation/components/alerts.html"
-            }
-          },
-          [
-            _c("i", { staticClass: "ni ni-ui-04" }),
-            _vm._v(" Components\n                    ")
-          ]
-        )
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -39066,9 +38973,9 @@ var render = function() {
               _c("sidebar-item", {
                 attrs: {
                   link: {
-                    name: "Icons",
+                    name: "Employees",
                     icon: "ni ni-planet text-blue",
-                    path: "/icons"
+                    path: "/employees"
                   }
                 }
               }),
@@ -39076,7 +38983,7 @@ var render = function() {
               _c("sidebar-item", {
                 attrs: {
                   link: {
-                    name: "Maps",
+                    name: "Companies",
                     icon: "ni ni-pin-3 text-orange",
                     path: "/maps"
                   }
@@ -39086,17 +38993,7 @@ var render = function() {
               _c("sidebar-item", {
                 attrs: {
                   link: {
-                    name: "User Profile",
-                    icon: "ni ni-single-02 text-yellow",
-                    path: "/profile"
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("sidebar-item", {
-                attrs: {
-                  link: {
-                    name: "Tables",
+                    name: "Admin Users",
                     icon: "ni ni-bullet-list-67 text-red",
                     path: "/tables"
                   }
@@ -39106,9 +39003,9 @@ var render = function() {
               _c("sidebar-item", {
                 attrs: {
                   link: {
-                    name: "Login",
-                    icon: "ni ni-key-25 text-info",
-                    path: "/login"
+                    name: "Profile",
+                    icon: "ni ni-single-02 text-yellow",
+                    path: "/profile"
                   }
                 }
               }),
@@ -39116,9 +39013,9 @@ var render = function() {
               _c("sidebar-item", {
                 attrs: {
                   link: {
-                    name: "Register",
-                    icon: "ni ni-circle-08 text-pink",
-                    path: "/register"
+                    name: "Logout",
+                    icon: "ni ni-key-25 text-info",
+                    path: "/login"
                   }
                 }
               })
@@ -39146,9 +39043,7 @@ var render = function() {
                 },
                 [_c("router-view")],
                 1
-              ),
-              _vm._v(" "),
-              !_vm.$route.meta.hideFooter ? _c("content-footer") : _vm._e()
+              )
             ],
             1
           )
@@ -57359,10 +57254,10 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
         return Promise.all(/*! import() | demo */[__webpack_require__.e("vendors~demo"), __webpack_require__.e("demo")]).then(__webpack_require__.bind(null, /*! ./views/Dashboard.vue */ "./resources/js/views/Dashboard.vue"));
       }
     }, {
-      path: '/icons',
-      name: 'icons',
+      path: '/employees',
+      name: 'Employees',
       component: function component() {
-        return Promise.all(/*! import() | demo */[__webpack_require__.e("vendors~demo"), __webpack_require__.e("demo")]).then(__webpack_require__.bind(null, /*! ./views/Icons.vue */ "./resources/js/views/Icons.vue"));
+        return Promise.all(/*! import() | demo */[__webpack_require__.e("vendors~demo"), __webpack_require__.e("demo")]).then(__webpack_require__.bind(null, /*! ./views/Employee.vue */ "./resources/js/views/Employee.vue"));
       }
     }, {
       path: '/profile',

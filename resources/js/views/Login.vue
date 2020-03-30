@@ -74,11 +74,19 @@
                         .catch(err=>{
                             if(err.status === 404){
                                 ToastF({
-                                message:"Account not found",
-                                type:'error',
-                                animation:'slide'
-                            })
+                                    message:"Account not found",
+                                    type:'danger',
+                                    animation:'slide'
+                                })
                             }
+                            if(err.status === 401){
+                                ToastF({
+                                    message:"Invalid login",
+                                    type:'danger',
+                                    animation:'slide'
+                                })
+                            }
+                            this.buttonText = "Sign in";
                         })
                     }
                 })

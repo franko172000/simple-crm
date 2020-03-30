@@ -14,12 +14,11 @@
           }"
         />
 
-        <sidebar-item :link="{name: 'Icons', icon: 'ni ni-planet text-blue', path: '/icons'}"/>
-        <sidebar-item :link="{name: 'Maps', icon: 'ni ni-pin-3 text-orange', path: '/maps'}"/>
-        <sidebar-item :link="{name: 'User Profile', icon: 'ni ni-single-02 text-yellow', path: '/profile'}"/>
-        <sidebar-item :link="{name: 'Tables', icon: 'ni ni-bullet-list-67 text-red', path: '/tables'}"/>
-        <sidebar-item :link="{name: 'Login', icon: 'ni ni-key-25 text-info', path: '/login'}"/>
-        <sidebar-item :link="{name: 'Register', icon: 'ni ni-circle-08 text-pink', path: '/register'}"/>
+        <sidebar-item :link="{name: 'Employees', icon: 'ni ni-planet text-blue', path: '/employees'}"/>
+        <sidebar-item :link="{name: 'Companies', icon: 'ni ni-pin-3 text-orange', path: '/maps'}"/>
+        <sidebar-item :link="{name: 'Admin Users', icon: 'ni ni-bullet-list-67 text-red', path: '/tables'}"/>
+        <sidebar-item :link="{name: 'Profile', icon: 'ni ni-single-02 text-yellow', path: '/profile'}"/>
+        <sidebar-item :link="{name: 'Logout', icon: 'ni ni-key-25 text-info', path: '/login'}"/>
 
       </template>
     </side-bar>
@@ -31,7 +30,6 @@
           <!-- your content here -->
           <router-view></router-view>
         </fade-transition>
-        <content-footer v-if="!$route.meta.hideFooter"></content-footer>
       </div>
     </div>
   </div>
