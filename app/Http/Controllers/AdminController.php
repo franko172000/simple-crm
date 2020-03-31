@@ -80,6 +80,7 @@ class AdminController extends Controller {
             $result = $this->adminModel::where('user_id',$userID)->delete();
 
             if($result === 1){
+                $this->userModel::where('id',$userID)->delete();
                 //add conpamy data
                 return $this->responses::getSuccess();
            }else{

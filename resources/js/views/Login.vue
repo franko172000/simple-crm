@@ -63,6 +63,7 @@
                                 tokenService.setUserData({
                                     name : userData.name,
                                 });
+                                tokenService.setAccessToken(res.data.data.token)
 
                              ToastF({
                                 message:"Login successful",

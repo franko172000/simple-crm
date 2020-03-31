@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Validator;
+use DB;
 
 class EmployeeController extends Controller {
     private $employeeModel;
@@ -28,6 +29,8 @@ class EmployeeController extends Controller {
     public function createEmployee(Request $request){
         $form = $request->all();
         $user =  null;
+        $filename = "";
+        $image = null;
         $response= [];
         //set validation rules and messages
         $messages = [
@@ -46,6 +49,15 @@ class EmployeeController extends Controller {
             'company_id' => 'required',
         ];
 
+        if($request->hasFile('profile_image')){
+            $image = $request->file('profile_image');
+            $allowedImageTypes = ["image/jpeg","image/jpg","image/png","image/gif"];
+            $imageMime = $image->getMimeType();
+            if(!in_array($imageMime,$allowedImageTypes)){
+                return $this->responses::getBadRequst("Invalid image format");
+            }
+        }
+
         //start the validation
         $validator = $this->validator::make($form,$rules,$messages);
 
@@ -57,13 +69,21 @@ class EmployeeController extends Controller {
             $user->user_type = "employee";
             $user->save();
 
+            if($request->hasFile('profile_image')){
+                $filename = time()."_".$user->id."_profile_pic.".$image->getClientOriginalExtension();
+                $path = public_path("profile-pic/employee/");
+                $image->move($path,$filename);
+            }
+
             //add conpamy data
             $this->employeeModel->user_id = $user->id;
             $this->employeeModel->first_name = $form['first_name'];
             $this->employeeModel->last_name = $form['last_name'];
             $this->employeeModel->company_id = $form['company_id'];
+            $this->employeeModel->photo = $filename;
             $this->employeeModel->save();
 
+            
             return $this->responses::getSuccessNewResource();
 
         }else{
@@ -77,8 +97,9 @@ class EmployeeController extends Controller {
             return $this->responses::getBadRequest("employee id not set");
         }else{
             $result = $this->employeeModel::where('user_id',$userID)->delete();
-
+            
             if($result === 1){
+                $this->userModel::where('id',$userID)->delete();
                 //add conpamy data
                 return $this->responses::getSuccess();
            }else{
@@ -94,7 +115,8 @@ class EmployeeController extends Controller {
         $recordPerPage = isset($body['limit']) ? $body['limit'] : 0;
         $page = isset($body['page']) ? $body['page'] : "";
 
-        $employeeObj = $this->employeeModel;
+        $employeeObj = $this->employeeModel->select(DB::raw('first_name,last_name,CONCAT("profile-pic/employee/",photo) 
+        as profile_photo,company_id,user_id, user_id , (SELECT name FROM company where user_id = company_id) AS company_name, (SELECT email FROM users where id = user_id) AS email'));
 
         //check is user is a company
         if($uer->user_type === "company"){
@@ -128,6 +150,7 @@ class EmployeeController extends Controller {
     
     public function updateEmployee(Request $request){
         $form = $request->all();
+        $image = null;
         $user =  null;
         $response= [];
         //set validation rules and messages
@@ -140,24 +163,56 @@ class EmployeeController extends Controller {
         $rules = [
             'first_name' => 'required',
             'last_name' => 'required',
+            'email' => 'email|unique:users,email,'.$form['user_id'],
             'user_id' => 'required',
         ];
 
         //start the validation
         $validator = $this->validator::make($form,$rules,$messages);
 
+        //check if there are files to upload
+        // if($request->hasFile('profile_image')){
+        //     $image = $request->file('profile_image');
+        //     $allowedImageTypes = ["image/jpeg","image/jpg","image/png","image/gif"];
+        //     $imageMime = $image->getMimeType();
+        //     if(!in_array($imageMime,$allowedImageTypes)){
+        //         return $this->responses::getBadRequst("Invalid image format");
+        //     }
+        // }
+
         if(!$validator->fails()){
 
             $data = ["first_name"=>$form['first_name'],"last_name"=>$form['last_name']];
+
             if(isset($form['company_id'])){
                 $data['company_id'] = $form['company_id'];
             }
 
+            //udate account login detail
+            if(isset($form['email']) || isset($form['password'])){
+                $userData = [];
+                if(isset($form['email']))
+                    $userData["email"]=$form['email'];
+                if(isset($form['password']))
+                    $userData["email"]=$this->hash::make($form['password']);    
+
+                $this->userModel::where('id',$form['user_id'])->update($userData);
+            }
+
+            // //upload ans set image path in db
+            // if($request->hasFile('profile_image')){
+            //     $filename = time()."_".$form['user_id']."_profile_pic.".$image->getClientOriginalExtension();
+            //     $path = public_path("profile-pic/employee/");
+            //     $image->move($path,$filename);
+            //     $data['photo'] = $filename;
+            // }
+
+            //do the update
             $result = $this->employeeModel::where('user_id',$form['user_id'])
             ->update($data);
-            
+
             if($result === 1){
-                 //add conpamy data
+                 //get last updated entry
                  $user =  $this->employeeModel::where('user_id',$form['user_id'])->first();
                  return $this->responses::getSuccess(["employee"=>$user],"updated");
                 
