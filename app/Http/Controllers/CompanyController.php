@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Validator;
+use DB;
 
 class CompanyController extends Controller {
     private $companyModel;
@@ -28,6 +29,8 @@ class CompanyController extends Controller {
         $form = $request->all();
         $user =  null;
         $response= [];
+        $filename = "";
+        $image = null;
         //set validation rules and messages
         $messages = [
             'email.required' => 'Please enter your username',
@@ -45,6 +48,15 @@ class CompanyController extends Controller {
             'url' => 'required|min:2',
         ];
 
+        if($request->hasFile('logo')){
+            $image = $request->file('logo');
+            $allowedImageTypes = ["image/jpeg","image/jpg","image/png","image/gif"];
+            $imageMime = $image->getMimeType();
+            if(!in_array($imageMime,$allowedImageTypes)){
+                return $this->responses::getBadRequst("Invalid image format");
+            }
+        }
+
         //start the validation
         $validator = $this->validator::make($form,$rules,$messages);
 
@@ -56,12 +68,18 @@ class CompanyController extends Controller {
             $user->user_type = "company";
             $user->save();
 
+            if($request->hasFile('logo')){
+                $filename = time()."_".$user->id."_profile_pic.".$image->getClientOriginalExtension();
+                $path = public_path("profile-pic/company/");
+                $image->move($path,$filename);
+            }
+
             //add conpamy data
             $this->companyModel->user_id = $user->id;
             $this->companyModel->name = $form['name'];
             $this->companyModel->contact_person = $form['contact_person'];
             $this->companyModel->url = $form['url'];
-            $this->companyModel->logo = $form['url'];
+            $this->companyModel->logo = $filename;
             $this->companyModel->save();
 
 
@@ -93,7 +111,8 @@ class CompanyController extends Controller {
         $body = $request->all();
         $recordPerPage = isset($body['limit']) ? $body['limit'] : 0;
         $page = isset($body['page']) ? $body['page'] : "";
-        $companyObj = $this->companyModel;
+        $companyObj = $this->companyModel->select(DB::raw("name,contact_person,url,CONCAT('profile-pic/company/',logo) AS company_logo, 
+        user_id as companyid, (SELECT COUNT(*) AS total FROM employee WHERE company_id = companyid) AS employee_count, (SELECT email FROM users where id = companyid) AS email"));
          
         if(!empty($page)){
             $pagenum = $page;
@@ -134,6 +153,7 @@ class CompanyController extends Controller {
         $rules = [
             'name' => 'required|min:2',
             'contact_person' => 'required|min:2',
+            'email' => 'email|unique:users,email,'.$form['user_id'],
             'url' => 'required|min:2',
             'user_id' => 'required',
         ];
@@ -142,6 +162,18 @@ class CompanyController extends Controller {
         $validator = $this->validator::make($form,$rules,$messages);
 
         if(!$validator->fails()){
+
+            //udate account login detail
+            if(isset($form['email']) || isset($form['password'])){
+                $userData = [];
+                if(isset($form['email']))
+                    $userData["email"]=$form['email'];
+                if(isset($form['password']))
+                    $userData["email"]=$this->hash::make($form['password']);    
+
+                $this->userModel::where('id',$form['user_id'])->update($userData);
+            }
+
 
             $result = $this->companyModel::where('user_id',$form['user_id'])
             ->update(["name"=>$form['name'],"contact_person"=>$form['contact_person'],"url"=>$form['url']]);

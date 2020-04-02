@@ -16,7 +16,7 @@
                             </h3>
                           </div>
                           <div class="col text-right">
-                            <base-button type="primary" size="sm" @click="showModal = true">Add Employee</base-button>
+                            <base-button type="primary" size="sm" @click="showModal = true">Add Company</base-button>
                           </div>
                         </div>
                       </div>
@@ -24,11 +24,13 @@
                               <base-table class="table align-items-center table-flush"
                                 :thead-classes="'thead-light'"
                                 tbody-classes="list"
-                                :data="employees">
+                                :data="companies">
                                 <template slot="columns">
-                                  <th>First name</th>
-                                  <th>Last name</th>
-                                  <th>Company</th>
+                                  <th>comapny name</th>
+                                  <th>Contact Person</th>
+                                  <th>Url</th>
+                                  <th>Employees</th>
+                                  <th>Email</th>
                                   <th></th>
                                 </template>
 
@@ -36,25 +38,37 @@
                                   <th scope="row">
                                     <div class="media align-items-center">
                                       <a href="#" class="avatar rounded-circle mr-3">
-                                        <img alt="Image placeholder" :src="row.profile_photo">
+                                        <img alt="Image placeholder" :src="row.company_logo">
                                       </a>
                                       <div class="media-body">
-                                        <span class="name mb-0 text-sm">{{row.first_name}}</span>
+                                        <span class="name mb-0 text-sm">{{row.name}}</span>
                                       </div>
                                     </div>
                                   </th>
                                   <td class="budget">
-                                    {{row.last_name}}
+                                    {{row.contact_person}}
                                   </td>
                                   <td>
-                                    <badge class="badge-dot mr-4" :type="row.statusType">
-                                      <i :class="`bg-${row.statusType}`"></i>
-                                      <span class="status">{{row.company_name}}</span>
+                                    <badge class="badge-dot mr-4">
+                                      
+                                      <span class="status">{{row.url}}</span>
+                                    </badge>
+                                  </td>
+                                  <td>
+                                    <badge class="badge-dot mr-4">
+                                      
+                                      <span class="status">{{row.employee_count}}</span>
+                                    </badge>
+                                  </td>
+                                  <td>
+                                    <badge class="badge-dot mr-4">
+                                      
+                                      <span class="status">{{row.email}}</span>
                                     </badge>
                                   </td>
                                 <td class="text-right">
-                                    <base-button type="primary" size="sm" @click="editEmployee(row)" >Edit</base-button>
-                                    <base-button type="danger" size="sm" @click="deleteEmployee(row)" >Delete</base-button>
+                                    <base-button type="primary" size="sm" @click="editCompany(row)" >Edit</base-button>
+                                    <base-button type="danger" size="sm" @click="deleteCompany(row)" >Delete</base-button>
                                   </td>
 
                                 </template>
@@ -69,16 +83,21 @@
                 </div>
 
           <modal :show="showModal">
-            <h2 class="text-center">{{editMode ? 'Edit Employee' : 'Add Employee'}}</h2>
+            <h2 class="text-center">{{editMode ? 'Edit Company' : 'Add Company'}}</h2>
               <form role="form">
                         <base-input class="input-group-alternative mb-3"
-                                    placeholder="First name"
-                                    v-model="model.first_name">
+                                    placeholder="Company name"
+                                    v-model="model.name">
                         </base-input>
 
                         <base-input class="input-group-alternative mb-3"
-                                    placeholder="Last name"
-                                    v-model="model.last_name">
+                                    placeholder="Contact person"
+                                    v-model="model.contact_person">
+                        </base-input>
+
+                        <base-input class="input-group-alternative mb-3"
+                                    placeholder="Website URL"
+                                    v-model="model.url">
                         </base-input>
 
                         <base-input class="input-group-alternative mb-3"
@@ -92,18 +111,23 @@
                                     v-model="model.password">
                         </base-input>
 
-                        <select class="form-control" v-model="model.company_id">
-                            <option value="">Select company</option>
-                            <option v-for="(company,index) in companies" :key="index" :value="company.companyid">{{company.name}}</option>
-                        </select>
-                        
+
                         <div class="text-muted mt-2" v-show="!editMode">
-                            <p>Photo</p>
-                            <input type="file" ref="filePic" name="employee_photo" />
+                            <div class="media align-items-center">
+                                      <a href="#" class="avatar rounded-circle mr-3">
+                                        <img alt="logo" :src="logoSrc" />
+                                      </a>
+                                      <div class="media-body">
+                                        <input type="file" ref="filePic" name="company_photo" @change="onSelectedPhoto" v-show="false" />
+                                        <base-button type="info" @click="triggerUpload" v-show="!showremoveBtn" class="my-4 btn-sm">Select Logo</base-button>
+                                        <base-button type="danger" @click="removePhoto" v-show="showremoveBtn" class="my-4 btn-sm">Remove Logo</base-button>
+                                      </div>
+                                    </div>
+                            
                         </div>
                         <div class="text-center">
-                            <base-button type="primary" @click.prevent="updateEmployee" v-show="editMode" class="my-4">{{submitProgress ? 'Updating employee...' : 'Update Employee'}}</base-button><br />
-                            <base-button type="primary" @click.prevent="addEmployee" v-show="!editMode" class="my-4">{{submitProgress ? 'Adding employee...' : 'Create Employee'}}</base-button><br />
+                            <base-button type="primary" @click.prevent="updateCompany" v-show="editMode" class="my-4">{{submitProgress ? 'Updating company...' : 'Update Company'}}</base-button><br />
+                            <base-button type="primary" @click.prevent="addCompany" v-show="!editMode" class="my-4">{{submitProgress ? 'Adding company...' : 'Create Company'}}</base-button><br />
                             <a href="#" @click.prevent="showModal = false">Close form</a>
                         </div>
               </form>
@@ -119,27 +143,24 @@
       return {
         employees:[],
         companies:[],
-        title:'Employee List',
-        model:{first_name:"",last_name:"",company_id:"", email:"", password:"", company:"",user_id:""},
+        title:'Companies List',
+        model:{name:"",contact_person:"",url:"", email:"", password:"", company:"",user_id:""},
         showModal : false,
         editMode : false,
-        submitProgress:false
+        submitProgress:false,
+        showremoveBtn: false,
+        logoSrc: null
       }
     },
     methods: {
-        getEmployee(){
-            employeeRepo.getEmployee()
-            .then(res=>{
-                this.employees = res.data.data.employees;
-            })
-        },
-        editEmployee(row){
+        
+        editCompany(row){
           
-            this.model.first_name = row.first_name
-            this.model.last_name = row.last_name
+            this.model.name = row.name
+            this.model.contact_person = row.contact_person
+            this.model.url = row.url
             this.model.email = row.email
-            this.model.user_id = row.user_id
-            this.model.company_id = row.companyid
+            this.model.user_id = row.companyid
             this.showModal = true;
             this.editMode = true;
         },
@@ -149,25 +170,35 @@
                 this.companies = res.data.data.companies;
             })
         },
-        addEmployee(){
-          console.log(this.model)
+        triggerUpload(){
+            this.$refs.filePic.click();
+        },
+        onSelectedPhoto(e){
+            this.logoSrc =  URL.createObjectURL(e.target.files[0]);
+            this.showremoveBtn = true
+        },
+        removePhoto(){
+            this.showremoveBtn = false;
+            this.logoSrc = null;
+        },
+        addCompany(){
           let data = new FormData();
-          data.append('profile_image', this.$refs.filePic.files[0]);
+          data.append('logo', this.$refs.filePic.files[0]);
             for(let field in this.model){
                 data.append(field, this.model[field]);
             }
             this.submitProgress = true;
-            employeeRepo.addEmployee(data)
+            companyRepo.addCompany(data)
             .then(res=>{
-                this.getEmployee();
+                this.getcompanies();
                 this.showModal = false;
                 this.submitProgress = false;
                 this.$notify({
                   type: 'success',
-                  title: 'Employee added successfully'
+                  title: 'Company added successfully'
                 })
-          })
-          .catch(err=>{
+            })
+            .catch(err=>{
                 if(err.status === 422){
                     this.$notify({
                         type: 'danger',
@@ -177,7 +208,7 @@
                 this.submitProgress = false;
             })
         },
-        updateEmployee(){
+        updateCompany(){
           let data = new FormData();
           let file = this.$refs.filePic.files[0];
           if(file !== undefined){
@@ -189,27 +220,27 @@
             data = this.model;
           }
             this.submitProgress = true;
-            employeeRepo.updateEmployee(data)
+            companyRepo.updateCompany(data)
             .then(res=>{
-                this.getEmployee();
+                this.getcompanies();
                 this.showModal = false;
                 this.submitProgress = false;
                 this.$notify({
                   type: 'success',
-                  title: 'Employee updated successfully'
+                  title: 'Company updated successfully'
                 })
           })
         },
-        deleteEmployee(row){
+        deleteCompany(row){
           let __this = this;
-          this.$alertify.confirm('Delete employee?',function(){
-              employeeRepo.deleteEmployee(row.user_id)
+          this.$alertify.confirm('Delete company?',function(){
+              companyRepo.deleteCompany(row.companyid)
               .then(res=>{
-                let index = __this.employees.indexOf(row);
-                __this.employees.splice(index,1);
+                let index = __this.companies.indexOf(row);
+                __this.companies.splice(index,1);
                 __this.$notify({
                       type: 'success',
-                      title: 'Employee deleted'
+                      title: 'Company deleted'
                     })
               })
           })
@@ -217,7 +248,6 @@
         }
     },
     mounted(){
-      this.getEmployee();
       this.getcompanies();
     }
   };

@@ -15,8 +15,8 @@
         />
 
         <sidebar-item :link="{name: 'Employees', icon: 'ni ni-planet text-blue', path: '/employees'}"/>
-        <sidebar-item :link="{name: 'Companies', icon: 'ni ni-pin-3 text-orange', path: '/maps'}"/>
-        <sidebar-item :link="{name: 'Admin Users', icon: 'ni ni-bullet-list-67 text-red', path: '/tables'}"/>
+        <sidebar-item :link="{name: 'Companies', icon: 'ni ni-pin-3 text-orange', path: '/companies'}"/>
+        <sidebar-item :link="{name: 'Admin Users', icon: 'ni ni-bullet-list-67 text-red', path: '/admin-users'}"/>
         <sidebar-item :link="{name: 'Profile', icon: 'ni ni-single-02 text-yellow', path: '/profile'}"/>
         <sidebar-item :link="{name: 'Logout', icon: 'ni ni-key-25 text-info', path: '/login'}"/>
 

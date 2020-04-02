@@ -42739,7 +42739,7 @@ var render = function() {
                   link: {
                     name: "Companies",
                     icon: "ni ni-pin-3 text-orange",
-                    path: "/maps"
+                    path: "/companies"
                   }
                 }
               }),
@@ -42749,7 +42749,7 @@ var render = function() {
                   link: {
                     name: "Admin Users",
                     icon: "ni ni-bullet-list-67 text-red",
-                    path: "/tables"
+                    path: "/admin-users"
                   }
                 }
               }),
@@ -61042,16 +61042,16 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
         return Promise.all(/*! import() | demo */[__webpack_require__.e("vendors~demo"), __webpack_require__.e("demo")]).then(__webpack_require__.bind(null, /*! ./views/UserProfile.vue */ "./resources/js/views/UserProfile.vue"));
       }
     }, {
-      path: '/maps',
+      path: '/companies',
       name: 'maps',
       component: function component() {
-        return Promise.all(/*! import() | demo */[__webpack_require__.e("vendors~demo"), __webpack_require__.e("demo")]).then(__webpack_require__.bind(null, /*! ./views/Maps.vue */ "./resources/js/views/Maps.vue"));
+        return Promise.all(/*! import() | demo */[__webpack_require__.e("vendors~demo"), __webpack_require__.e("demo")]).then(__webpack_require__.bind(null, /*! ./views/Company */ "./resources/js/views/Company.vue"));
       }
     }, {
-      path: '/tables',
+      path: '/admin-users',
       name: 'tables',
       component: function component() {
-        return Promise.all(/*! import() | demo */[__webpack_require__.e("vendors~demo"), __webpack_require__.e("demo")]).then(__webpack_require__.bind(null, /*! ./views/Tables.vue */ "./resources/js/views/Tables.vue"));
+        return Promise.all(/*! import() | demo */[__webpack_require__.e("vendors~demo"), __webpack_require__.e("demo")]).then(__webpack_require__.bind(null, /*! ./views/AdminUsers */ "./resources/js/views/AdminUsers.vue"));
       }
     }]
   }, {

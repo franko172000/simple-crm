@@ -32,14 +32,14 @@ export default new Router({
           component: () => import(/* webpackChunkName: "demo" */ './views/UserProfile.vue')
         },
         {
-          path: '/maps',
+          path: '/companies',
           name: 'maps',
-          component: () => import(/* webpackChunkName: "demo" */ './views/Maps.vue')
+          component: () => import(/* webpackChunkName: "demo" */ './views/Company')
         },
         {
-          path: '/tables',
+          path: '/admin-users',
           name: 'tables',
-          component: () => import(/* webpackChunkName: "demo" */ './views/Tables.vue')
+          component: () => import(/* webpackChunkName: "demo" */ './views/AdminUsers')
         }
       ]
     },
