@@ -142,12 +142,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -171,20 +165,19 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    editCompany: function editCompany(row) {
-      this.model.name = row.name;
-      this.model.contact_person = row.contact_person;
-      this.model.url = row.url;
+    editUser: function editUser(row) {
+      this.model.first_name = row.first_name;
+      this.model.last_name = row.last_name;
       this.model.email = row.email;
-      this.model.user_id = row.companyid;
+      this.model.user_id = row.user_id;
       this.showModal = true;
       this.editMode = true;
     },
-    getcompanies: function getcompanies() {
+    getUsers: function getUsers() {
       var _this = this;
 
-      companyRepo.getCompanies().then(function (res) {
-        _this.companies = res.data.data.companies;
+      _repository_users_AdminRepository__WEBPACK_IMPORTED_MODULE_0__["default"].getUsers().then(function (res) {
+        _this.users = res.data.data.users;
       });
     },
     triggerUpload: function triggerUpload() {
@@ -198,26 +191,26 @@ __webpack_require__.r(__webpack_exports__);
       this.showremoveBtn = false;
       this.logoSrc = null;
     },
-    addCompany: function addCompany() {
+    addUser: function addUser() {
       var _this2 = this;
 
       var data = new FormData();
-      data.append('logo', this.$refs.filePic.files[0]);
+      data.append('profile_logo', this.$refs.filePic.files[0]);
 
       for (var field in this.model) {
         data.append(field, this.model[field]);
       }
 
       this.submitProgress = true;
-      companyRepo.addCompany(data).then(function (res) {
-        _this2.getcompanies();
+      _repository_users_AdminRepository__WEBPACK_IMPORTED_MODULE_0__["default"].addUser(data).then(function (res) {
+        _this2.getUsers();
 
         _this2.showModal = false;
         _this2.submitProgress = false;
 
         _this2.$notify({
           type: 'success',
-          title: 'Company added successfully'
+          title: 'User added successfully'
         });
       })["catch"](function (err) {
         if (err.status === 422) {
@@ -230,54 +223,51 @@ __webpack_require__.r(__webpack_exports__);
         _this2.submitProgress = false;
       });
     },
-    updateCompany: function updateCompany() {
+    updateUser: function updateUser() {
       var _this3 = this;
 
       var data = new FormData();
-      var file = this.$refs.filePic.files[0];
-
-      if (file !== undefined) {
-        data.append('profile_image', this.$refs.filePic.files[0]);
-
-        for (var field in this.model) {
-          data.append(field, this.model[field]);
-        }
-      } else {
-        data = this.model;
-      }
+      var file = this.$refs.filePic.files[0]; //   if(file !== undefined){
+      //       data.append('profile_photo', this.$refs.filePic.files[0]);
+      //       for(let field in this.model){
+      //         data.append(field, this.model[field]);
+      //       }
+      //   }else{
+      //     data = this.model;
+      //   }
 
       this.submitProgress = true;
-      companyRepo.updateCompany(data).then(function (res) {
-        _this3.getcompanies();
+      _repository_users_AdminRepository__WEBPACK_IMPORTED_MODULE_0__["default"].updateUser(this.model).then(function (res) {
+        _this3.getUsers();
 
         _this3.showModal = false;
         _this3.submitProgress = false;
 
         _this3.$notify({
           type: 'success',
-          title: 'Company updated successfully'
+          title: 'User updated successfully'
         });
       });
     },
-    deleteCompany: function deleteCompany(row) {
+    deleteUser: function deleteUser(row) {
       var __this = this;
 
-      this.$alertify.confirm('Delete company?', function () {
-        companyRepo.deleteCompany(row.companyid).then(function (res) {
-          var index = __this.companies.indexOf(row);
+      this.$alertify.confirm('Delete user?', function () {
+        _repository_users_AdminRepository__WEBPACK_IMPORTED_MODULE_0__["default"].deleteUser(row.user_id).then(function (res) {
+          var index = __this.users.indexOf(row);
 
-          __this.companies.splice(index, 1);
+          __this.users.splice(index, 1);
 
           __this.$notify({
             type: 'success',
-            title: 'Company deleted'
+            title: 'user deleted'
           });
         });
       });
     }
   },
   mounted: function mounted() {
-    this.getcompanies();
+    this.getUsers();
   }
 });
 
@@ -2029,7 +2019,7 @@ var render = function() {
                                         _c("img", {
                                           attrs: {
                                             alt: "Image placeholder",
-                                            src: row.profile_image
+                                            src: row.profile_photo
                                           }
                                         })
                                       ]
@@ -2062,23 +2052,7 @@ var render = function() {
                                     { staticClass: "badge-dot mr-4" },
                                     [
                                       _c("span", { staticClass: "status" }, [
-                                        _vm._v(_vm._s(row.url))
-                                      ])
-                                    ]
-                                  )
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "td",
-                                [
-                                  _c(
-                                    "badge",
-                                    { staticClass: "badge-dot mr-4" },
-                                    [
-                                      _c("span", { staticClass: "status" }, [
-                                        _vm._v(_vm._s(row.employee_count))
+                                        _vm._v(_vm._s(row.role))
                                       ])
                                     ]
                                   )
@@ -2112,7 +2086,7 @@ var render = function() {
                                       attrs: { type: "primary", size: "sm" },
                                       on: {
                                         click: function($event) {
-                                          return _vm.editCompany(row)
+                                          return _vm.editUser(row)
                                         }
                                       }
                                     },
@@ -2125,7 +2099,7 @@ var render = function() {
                                       attrs: { type: "danger", size: "sm" },
                                       on: {
                                         click: function($event) {
-                                          return _vm.deleteCompany(row)
+                                          return _vm.deleteUser(row)
                                         }
                                       }
                                     },
@@ -2173,7 +2147,7 @@ var render = function() {
           [
             _c("base-input", {
               staticClass: "input-group-alternative mb-3",
-              attrs: { placeholder: "Company name" },
+              attrs: { placeholder: "First name" },
               model: {
                 value: _vm.model.first_name,
                 callback: function($$v) {
@@ -2185,7 +2159,7 @@ var render = function() {
             _vm._v(" "),
             _c("base-input", {
               staticClass: "input-group-alternative mb-3",
-              attrs: { placeholder: "Contact person" },
+              attrs: { placeholder: "Last name" },
               model: {
                 value: _vm.model.last_name,
                 callback: function($$v) {
@@ -2206,7 +2180,7 @@ var render = function() {
                     expression: "model.role"
                   }
                 ],
-                staticClass: "form-control",
+                staticClass: "form-control mt-2",
                 on: {
                   change: function($event) {
                     var $$selectedVal = Array.prototype.filter
@@ -2298,7 +2272,7 @@ var render = function() {
                           }
                         ],
                         ref: "filePic",
-                        attrs: { type: "file", name: "company_photo" },
+                        attrs: { type: "file", name: "profile_photo" },
                         on: { change: _vm.onSelectedPhoto }
                       }),
                       _vm._v(" "),
@@ -2364,7 +2338,7 @@ var render = function() {
                     on: {
                       click: function($event) {
                         $event.preventDefault()
-                        return _vm.updateCompany($event)
+                        return _vm.updateUser($event)
                       }
                     }
                   },
@@ -2394,7 +2368,7 @@ var render = function() {
                     on: {
                       click: function($event) {
                         $event.preventDefault()
-                        return _vm.addCompany($event)
+                        return _vm.addUser($event)
                       }
                     }
                   },

@@ -69,7 +69,7 @@ class CompanyController extends Controller {
             $user->save();
 
             if($request->hasFile('logo')){
-                $filename = time()."_".$user->id."_profile_pic.".$image->getClientOriginalExtension();
+                $filename = time()."_".$user->id."_logo.".$image->getClientOriginalExtension();
                 $path = public_path("profile-pic/company/");
                 $image->move($path,$filename);
             }

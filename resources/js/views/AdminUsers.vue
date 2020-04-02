@@ -37,7 +37,7 @@
                                   <th scope="row">
                                     <div class="media align-items-center">
                                       <a href="#" class="avatar rounded-circle mr-3">
-                                        <img alt="Image placeholder" :src="row.profile_image">
+                                        <img alt="Image placeholder" :src="row.profile_photo">
                                       </a>
                                       <div class="media-body">
                                         <span class="name mb-0 text-sm">{{row.first_name}}</span>
@@ -50,13 +50,7 @@
                                   <td>
                                     <badge class="badge-dot mr-4">
                                       
-                                      <span class="status">{{row.url}}</span>
-                                    </badge>
-                                  </td>
-                                  <td>
-                                    <badge class="badge-dot mr-4">
-                                      
-                                      <span class="status">{{row.employee_count}}</span>
+                                      <span class="status">{{row.role}}</span>
                                     </badge>
                                   </td>
                                   <td>
@@ -66,8 +60,8 @@
                                     </badge>
                                   </td>
                                 <td class="text-right">
-                                    <base-button type="primary" size="sm" @click="editCompany(row)" >Edit</base-button>
-                                    <base-button type="danger" size="sm" @click="deleteCompany(row)" >Delete</base-button>
+                                    <base-button type="primary" size="sm" @click="editUser(row)" >Edit</base-button>
+                                    <base-button type="danger" size="sm" @click="deleteUser(row)" >Delete</base-button>
                                   </td>
 
                                 </template>
@@ -85,16 +79,16 @@
             <h2 class="text-center">{{editMode ? 'Edit User' : 'Add User'}}</h2>
               <form role="form">
                         <base-input class="input-group-alternative mb-3"
-                                    placeholder="Company name"
+                                    placeholder="First name"
                                     v-model="model.first_name">
                         </base-input>
 
                         <base-input class="input-group-alternative mb-3"
-                                    placeholder="Contact person"
+                                    placeholder="Last name"
                                     v-model="model.last_name">
                         </base-input>
 
-                        <select class="form-control" v-model="model.role">
+                        <select class="form-control mt-2" v-model="model.role">
                             <option value="">Select role</option>
                             <option value="admin">Admin</option>
                             <option value="sub-admin">Sub Admin</option>
@@ -119,7 +113,7 @@
                                         <img alt="logo" :src="logoSrc" />
                                       </a>
                                       <div class="media-body">
-                                        <input type="file" ref="filePic" name="company_photo" @change="onSelectedPhoto" v-show="false" />
+                                        <input type="file" ref="filePic" name="profile_photo" @change="onSelectedPhoto" v-show="false" />
                                         <base-button type="info" @click="triggerUpload" v-show="!showremoveBtn" class="my-4 btn-sm">Select Logo</base-button>
                                         <base-button type="danger" @click="removePhoto" v-show="showremoveBtn" class="my-4 btn-sm">Remove Logo</base-button>
                                       </div>
@@ -127,8 +121,8 @@
                             
                         </div>
                         <div class="text-center">
-                            <base-button type="primary" @click.prevent="updateCompany" v-show="editMode" class="my-4">{{submitProgress ? 'Updating users...' : 'Update User'}}</base-button><br />
-                            <base-button type="primary" @click.prevent="addCompany" v-show="!editMode" class="my-4">{{submitProgress ? 'Adding users...' : 'Create User'}}</base-button><br />
+                            <base-button type="primary" @click.prevent="updateUser" v-show="editMode" class="my-4">{{submitProgress ? 'Updating users...' : 'Update User'}}</base-button><br />
+                            <base-button type="primary" @click.prevent="addUser" v-show="!editMode" class="my-4">{{submitProgress ? 'Adding users...' : 'Create User'}}</base-button><br />
                             <a href="#" @click.prevent="showModal = false">Close form</a>
                         </div>
               </form>
@@ -153,21 +147,18 @@
       }
     },
     methods: {
-        
-        editCompany(row){
-          
-            this.model.name = row.name
-            this.model.contact_person = row.contact_person
-            this.model.url = row.url
+        editUser(row){
+            this.model.first_name = row.first_name
+            this.model.last_name = row.last_name
             this.model.email = row.email
-            this.model.user_id = row.companyid
+            this.model.user_id = row.user_id
             this.showModal = true;
             this.editMode = true;
         },
-        getcompanies(){
-            companyRepo.getCompanies()
+        getUsers(){
+            adminRepo.getUsers()
             .then(res=>{
-                this.companies = res.data.data.companies;
+                this.users = res.data.data.users;
             })
         },
         triggerUpload(){
@@ -181,21 +172,21 @@
             this.showremoveBtn = false;
             this.logoSrc = null;
         },
-        addCompany(){
+        addUser(){
           let data = new FormData();
-          data.append('logo', this.$refs.filePic.files[0]);
+          data.append('profile_logo', this.$refs.filePic.files[0]);
             for(let field in this.model){
                 data.append(field, this.model[field]);
             }
             this.submitProgress = true;
-            companyRepo.addCompany(data)
+            adminRepo.addUser(data)
             .then(res=>{
-                this.getcompanies();
+                this.getUsers();
                 this.showModal = false;
                 this.submitProgress = false;
                 this.$notify({
                   type: 'success',
-                  title: 'Company added successfully'
+                  title: 'User added successfully'
                 })
             })
             .catch(err=>{
@@ -208,39 +199,40 @@
                 this.submitProgress = false;
             })
         },
-        updateCompany(){
+        updateUser(){
           let data = new FormData();
           let file = this.$refs.filePic.files[0];
-          if(file !== undefined){
-              data.append('profile_image', this.$refs.filePic.files[0]);
-              for(let field in this.model){
-                data.append(field, this.model[field]);
-              }
-          }else{
-            data = this.model;
-          }
+        //   if(file !== undefined){
+        //       data.append('profile_photo', this.$refs.filePic.files[0]);
+        //       for(let field in this.model){
+        //         data.append(field, this.model[field]);
+        //       }
+        //   }else{
+        //     data = this.model;
+        //   }
+        
             this.submitProgress = true;
-            companyRepo.updateCompany(data)
+            adminRepo.updateUser(this.model)
             .then(res=>{
-                this.getcompanies();
+                this.getUsers();
                 this.showModal = false;
                 this.submitProgress = false;
                 this.$notify({
                   type: 'success',
-                  title: 'Company updated successfully'
+                  title: 'User updated successfully'
                 })
           })
         },
-        deleteCompany(row){
+        deleteUser(row){
           let __this = this;
-          this.$alertify.confirm('Delete company?',function(){
-              companyRepo.deleteCompany(row.companyid)
+          this.$alertify.confirm('Delete user?',function(){
+              adminRepo.deleteUser(row.user_id)
               .then(res=>{
-                let index = __this.companies.indexOf(row);
-                __this.companies.splice(index,1);
+                let index = __this.users.indexOf(row);
+                __this.users.splice(index,1);
                 __this.$notify({
                       type: 'success',
-                      title: 'Company deleted'
+                      title: 'user deleted'
                     })
               })
           })
@@ -248,7 +240,7 @@
         }
     },
     mounted(){
-      this.getcompanies();
+      this.getUsers();
     }
   };
 </script>

@@ -15,8 +15,9 @@ class AdminMigration extends Migration
     {
         Schema::create('admin', function (Blueprint $table) {
             $table->string('user_id',100)->primary();
-            $table->string('first_name')->unique();
-            $table->string('last_name')->unique();
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('photo',200)->nullable();
             $table->string('role', 20);
             $table->timestamps();
         });

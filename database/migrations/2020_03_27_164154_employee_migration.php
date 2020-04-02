@@ -15,9 +15,9 @@ class EmployeeMigration extends Migration
     {
         Schema::create('employee', function (Blueprint $table) {
             $table->string('user_id',100)->primary();
-            $table->string('first_name')->unique();
-            $table->string('last_name')->unique();
-            $table->string('photo', 50)->nullable();
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('photo', 250)->nullable();
             $table->timestamps();
         });
     }
