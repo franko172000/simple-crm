@@ -576,9 +576,10 @@ var api = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
 api.interceptors.response.use(function (response) {
   return response;
 }, function (error) {
-  // if(error.response.status === 401){
-  //     window.location.href = './login'
-  // }
+  if (error.response.status === 401) {
+    window.location.href = './login';
+  }
+
   return Promise.reject(error.response);
 });
 /* harmony default export */ __webpack_exports__["default"] = (api);

@@ -44,6 +44,6 @@ class ServerResponses {
    }
 
     public static function getUnauthorized(string $message){
-      return response()->json(["status"=>false, "message"=>$message, 'error'=>"Unauthorized access", 'statusCode'=>401],401);
+      return response()->json(["status"=>false, "message"=>$message, 'error'=>"Unauthorized access", 'statusCode'=>402],402);
    }
 }
