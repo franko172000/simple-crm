@@ -31,9 +31,9 @@
 
     <!-- Page Features -->
     <div class="row text-center">
-      <div class="col-lg-3 col-md-6 mb-4" v-for="(company,index) in companies" :key="index">
+      <div class="col-lg-3 col-md-6 mb-4" v-for="(company,index) in paginatedData()" :key="index">
         <div class="card h-100">
-          <img class="card-img-top" style="width:80%; margin:auto;" :src="company.company_logo">
+            <img class="card-img-top" style="width:80%; margin:auto;" :src="company.company_logo === null ? 'https://dummyimage.com/300.png/09f/fff': 'profile-pic/company/'+company.company_logo">
           <div class="card-body">
             <h4 class="card-title">{{company.name}}</h4>
             
@@ -45,7 +45,7 @@
       </div>
     </div>
 
-    <a href="#" class="btn btn-sm btn-primary">Prev</a> <a href="#" class="btn btn-sm btn-primary">Next</a>
+    <a href="#" class="btn btn-sm btn-primary" @click.prevent="prevPage">Prev</a> <a href="#"  @click.prevent="nextPage" class="btn btn-sm btn-primary">Next</a>
     <!-- /.row -->
 
   </div>
@@ -69,18 +69,35 @@ export default {
       return {
         companies:[],
         title:'Company List',
+        listData:[],
+        size:8,
+        pageNumber:0
       }
     },
     methods: {
-        getcompanies(){
-            companyRepo.getPublicCompanies()
-            .then(res=>{
-                this.companies = res.data.data.companies;
-            })
+        async getcompanies(){
+            let res = await companyRepo.getPublicCompanies()
+             this.companies = res.data.data.companies;
+        },
+        nextPage(){
+         this.pageNumber++;
+      },
+      prevPage(){
+        this.pageNumber--;
+      },
+      pageCount(){
+            let l = this.companies.length,
+                s = this.size;
+            return Math.ceil(l/s);
+        },
+        paginatedData(){
+          const start = this.pageNumber * this.size,
+          end = start + this.size;  
+          return this.companies.slice(start, end);
         }
     },
-    mounted(){
-      this.getcompanies();
+    async mounted(){
+      await this.getcompanies();
     }
 }
 </script>
@@ -103,13 +120,13 @@ export default {
 }
 .btn-primary:hover {
 	color: #fff;
-	background-color: #be70dc;
-	border-color: #be70dc;
+	background-color: #a5d80c;
+	border-color: #a5d80c;
 }
 .btn-primary {
 	color: #fff;
-	background-color: #be70dc;
-	border-color: #be70dc;
+	background-color: #a5d80c;
+	border-color: #a5d80c;
 	box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 .navbar-dark .navbar-nav .nav-link {

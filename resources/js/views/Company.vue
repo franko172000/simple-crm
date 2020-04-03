@@ -38,7 +38,8 @@
                                   <th scope="row">
                                     <div class="media align-items-center">
                                       <a href="#" class="avatar rounded-circle mr-3">
-                                        <img alt="Image placeholder" :src="row.company_logo">
+                                        <img alt="Image placeholder" :src="row.company_logo === null ? 'https://dummyimage.com/300.png/09f/fff': 'profile-pic/company/'+row.company_logo" >
+                                       
                                       </a>
                                       <div class="media-body">
                                         <span class="name mb-0 text-sm">{{row.name}}</span>

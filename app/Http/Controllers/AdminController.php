@@ -117,7 +117,7 @@ class AdminController extends Controller {
 
         $adminObj = $this->adminModel;
 
-        $adminObj = $this->adminModel->select(DB::raw('first_name,last_name,CONCAT("profile-pic/admin/",photo) 
+        $adminObj = $this->adminModel->select(DB::raw('first_name,last_name,photo 
         as profile_photo,user_id, role, (SELECT email FROM users where id = user_id) AS email'));
 
 
@@ -143,7 +143,7 @@ class AdminController extends Controller {
 
     public function getProfile(Request $request){
         $form = $request->all();
-        $admin = $adminObj = $this->adminModel::where('user_id',$form['user']->id)->select(DB::raw('first_name,last_name,CONCAT("profile-pic/admin/",photo) 
+        $admin = $adminObj = $this->adminModel::where('user_id',$form['user']->id)->select(DB::raw('first_name,last_name, photo
         as profile_photo,user_id, role, (SELECT email FROM users where id = user_id) AS email'))->firstOrFail();
         return $this->responses::getSuccess(["user"=>$admin]);
     }

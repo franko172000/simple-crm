@@ -17,8 +17,8 @@
                             <div class="col-lg-3 order-lg-2">
                                 <div class="card-profile-image">
                                     <a href="#">
-                                        <img v-if="this.logoSrc !== null" :src="this.logoSrc" class="rounded-circle">
-                                        <img v-if="this.logoSrc === null" :src="model.profile_photo" class="rounded-circle">
+                                        <img v-if="logoSrc !== null" :src="logoSrc" class="rounded-circle">
+                                        <img v-if="logoSrc === null" :src="model.profile_photo === null ? 'https://dummyimage.com/300.png/09f/fff': 'profile-pic/admin/'+model.profile_photo" class="rounded-circle">
                                     </a>
                                 </div>
                             </div>

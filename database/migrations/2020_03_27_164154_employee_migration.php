@@ -17,6 +17,7 @@ class EmployeeMigration extends Migration
             $table->string('user_id',100)->primary();
             $table->string('first_name');
             $table->string('last_name');
+            $table->string('company_id', 200);
             $table->string('photo', 250)->nullable();
             $table->timestamps();
         });

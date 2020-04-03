@@ -4,5 +4,6 @@
     "/demo.js": "/demo.js",
     "/demo0.js": "/demo0.js",
     "/demo2.js": "/demo2.js",
-    "/demo4.js": "/demo4.js"
+    "/demo4.js": "/demo4.js",
+    "/vendors~demo.js": "/vendors~demo.js"
 }

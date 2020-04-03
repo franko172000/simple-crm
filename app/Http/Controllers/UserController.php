@@ -58,6 +58,7 @@ class UserController extends Controller{
                 $jwt =  $this->jwt::fromUser($user);
                 
                 $userData = [];
+                
                 switch($user->user_type){
                     case "admin":
                         $admin = $this->admin::where('user_id',$user->id)->firstOrFail(['first_name','last_name']);

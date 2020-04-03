@@ -15,9 +15,9 @@ class CompanyMigration extends Migration
     {
         Schema::create('company', function (Blueprint $table) {
             $table->string('user_id',100)->primary();
-            $table->string('name')->unique();
+            $table->string('name');
             $table->string('contact_person');
-            $table->string('url', 50);
+            $table->string('url', 250);
             $table->string('logo', 250)->nullable();
             $table->timestamps();
         });

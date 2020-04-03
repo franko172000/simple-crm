@@ -72,7 +72,7 @@
                                 animation:'slide'
                             });
                             if(userData.acct_type === "admin"){
-                                window.location.href = "./"
+                                window.location.href = "./dashboard"
                             }else{
                                 window.location.href = "./profile"
                                 //this.$router.push('./profile')

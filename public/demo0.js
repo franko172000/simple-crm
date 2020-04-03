@@ -235,17 +235,22 @@ var render = function() {
                 _c("div", { staticClass: "col-lg-3 order-lg-2" }, [
                   _c("div", { staticClass: "card-profile-image" }, [
                     _c("a", { attrs: { href: "#" } }, [
-                      this.logoSrc !== null
+                      _vm.logoSrc !== null
                         ? _c("img", {
                             staticClass: "rounded-circle",
-                            attrs: { src: this.logoSrc }
+                            attrs: { src: _vm.logoSrc }
                           })
                         : _vm._e(),
                       _vm._v(" "),
-                      this.logoSrc === null
+                      _vm.logoSrc === null
                         ? _c("img", {
                             staticClass: "rounded-circle",
-                            attrs: { src: _vm.model.logo }
+                            attrs: {
+                              src:
+                                _vm.model.logo === null
+                                  ? "https://dummyimage.com/300.png/09f/fff"
+                                  : "profile-pic/company/" + _vm.model.logo
+                            }
                           })
                         : _vm._e()
                     ])

@@ -112,7 +112,7 @@ class CompanyController extends Controller {
         $body = $request->all();
         $recordPerPage = isset($body['limit']) ? $body['limit'] : 0;
         $page = isset($body['page']) ? $body['page'] : "";
-        $companyObj = $this->companyModel->select(DB::raw("name,contact_person,url,CONCAT('profile-pic/company/',logo) AS company_logo, 
+        $companyObj = $this->companyModel->select(DB::raw("name,contact_person,url,logo AS company_logo, 
         user_id as companyid, (SELECT COUNT(*) AS total FROM employee WHERE company_id = companyid) AS employee_count, (SELECT email FROM users where id = companyid) AS email"));
          
         if(!empty($page)){
@@ -141,7 +141,7 @@ class CompanyController extends Controller {
 
     public function getProfile(Request $request){
         $form = $request->all();
-        $company = $this->companyModel->select(DB::raw("name,contact_person,url,CONCAT('profile-pic/company/',logo) AS company_logo, 
+        $company = $this->companyModel->select(DB::raw("name,contact_person,url,logo AS company_logo, 
         user_id as companyid, (SELECT COUNT(*) AS total FROM employee WHERE company_id = companyid) AS employee_count, (SELECT email FROM users where id = companyid) AS email"))
         ->where('user_id',$form['user']->id)->firstOrFail();
         return $this->responses::getSuccess(["user"=>$company]);

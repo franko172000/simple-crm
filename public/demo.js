@@ -142,6 +142,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -285,6 +286,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _repository_users_EmployeeRepository__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../repository/users/EmployeeRepository */ "./resources/js/repository/users/EmployeeRepository.js");
 /* harmony import */ var _repository_users_CompanyRepository__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../repository/users/CompanyRepository */ "./resources/js/repository/users/CompanyRepository.js");
+//
 //
 //
 //
@@ -780,6 +782,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -921,7 +924,15 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _repository_users_CompanyRepository__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../repository/users/CompanyRepository */ "./resources/js/repository/users/CompanyRepository.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _repository_users_CompanyRepository__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../repository/users/CompanyRepository */ "./resources/js/repository/users/CompanyRepository.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -991,20 +1002,72 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       companies: [],
-      title: 'Company List'
+      title: 'Company List',
+      listData: [],
+      size: 8,
+      pageNumber: 0
     };
   },
   methods: {
     getcompanies: function getcompanies() {
       var _this = this;
 
-      _repository_users_CompanyRepository__WEBPACK_IMPORTED_MODULE_0__["default"].getPublicCompanies().then(function (res) {
-        _this.companies = res.data.data.companies;
-      });
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return _repository_users_CompanyRepository__WEBPACK_IMPORTED_MODULE_1__["default"].getPublicCompanies();
+
+              case 2:
+                res = _context.sent;
+                _this.companies = res.data.data.companies;
+
+              case 4:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    nextPage: function nextPage() {
+      this.pageNumber++;
+    },
+    prevPage: function prevPage() {
+      this.pageNumber--;
+    },
+    pageCount: function pageCount() {
+      var l = this.companies.length,
+          s = this.size;
+      return Math.ceil(l / s);
+    },
+    paginatedData: function paginatedData() {
+      var start = this.pageNumber * this.size,
+          end = start + this.size;
+      return this.companies.slice(start, end);
     }
   },
   mounted: function mounted() {
-    this.getcompanies();
+    var _this2 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return _this2.getcompanies();
+
+            case 2:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }))();
   }
 });
 
@@ -1097,7 +1160,7 @@ __webpack_require__.r(__webpack_exports__);
             });
 
             if (userData.acct_type === "admin") {
-              window.location.href = "./";
+              window.location.href = "./dashboard";
             } else {
               window.location.href = "./profile"; //this.$router.push('./profile')
             }
@@ -1156,7 +1219,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.bg-light[data-v-63cd6604] {\r\n    background-color: #e9ecef !important;\n}\n.display-3[data-v-63cd6604]{\r\n    color: white;\n}\n.jumbotron[data-v-63cd6604] {\r\n    color: white;\r\n\tbackground-color: #be70dc;\r\n\tborder-radius: 0.4375rem;\n}\n.navbar-brand-img[data-v-63cd6604] {\r\n    width: 60px;\r\n    height: 50px;\n}\n.btn-primary[data-v-63cd6604]:hover {\r\n\tcolor: #fff;\r\n\tbackground-color: #be70dc;\r\n\tborder-color: #be70dc;\n}\n.btn-primary[data-v-63cd6604] {\r\n\tcolor: #fff;\r\n\tbackground-color: #be70dc;\r\n\tborder-color: #be70dc;\r\n\tbox-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);\n}\n.navbar-dark .navbar-nav .nav-link[data-v-63cd6604] {\r\n\tcolor: rgb(14, 13, 13);\n}\r\n", ""]);
+exports.push([module.i, "\n.bg-light[data-v-63cd6604] {\r\n    background-color: #e9ecef !important;\n}\n.display-3[data-v-63cd6604]{\r\n    color: white;\n}\n.jumbotron[data-v-63cd6604] {\r\n    color: white;\r\n\tbackground-color: #be70dc;\r\n\tborder-radius: 0.4375rem;\n}\n.navbar-brand-img[data-v-63cd6604] {\r\n    width: 60px;\r\n    height: 50px;\n}\n.btn-primary[data-v-63cd6604]:hover {\r\n\tcolor: #fff;\r\n\tbackground-color: #a5d80c;\r\n\tborder-color: #a5d80c;\n}\n.btn-primary[data-v-63cd6604] {\r\n\tcolor: #fff;\r\n\tbackground-color: #a5d80c;\r\n\tborder-color: #a5d80c;\r\n\tbox-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);\n}\n.navbar-dark .navbar-nav .nav-link[data-v-63cd6604] {\r\n\tcolor: rgb(14, 13, 13);\n}\r\n", ""]);
 
 // exports
 
@@ -1338,7 +1401,11 @@ var render = function() {
                                         _c("img", {
                                           attrs: {
                                             alt: "Image placeholder",
-                                            src: row.profile_photo
+                                            src:
+                                              row.profile_photo === null
+                                                ? "https://dummyimage.com/300.png/09f/fff"
+                                                : "profile-pic/admin/" +
+                                                  row.profile_photo
                                           }
                                         })
                                       ]
@@ -1828,7 +1895,11 @@ var render = function() {
                                         _c("img", {
                                           attrs: {
                                             alt: "Image placeholder",
-                                            src: row.company_logo
+                                            src:
+                                              row.company_logo === null
+                                                ? "https://dummyimage.com/300.png/09f/fff"
+                                                : "profile-pic/company/" +
+                                                  row.company_logo
                                           }
                                         })
                                       ]
@@ -2401,7 +2472,11 @@ var render = function() {
                                         _c("img", {
                                           attrs: {
                                             alt: "Image placeholder",
-                                            src: row.profile_photo
+                                            src:
+                                              row.profile_photo === null
+                                                ? "https://dummyimage.com/300.png/09f/fff"
+                                                : "profile-pic/employee/" +
+                                                  row.profile_photo
                                           }
                                         })
                                       ]
@@ -2795,7 +2870,7 @@ var render = function() {
       _c(
         "div",
         { staticClass: "row text-center" },
-        _vm._l(_vm.companies, function(company, index) {
+        _vm._l(_vm.paginatedData(), function(company, index) {
           return _c(
             "div",
             { key: index, staticClass: "col-lg-3 col-md-6 mb-4" },
@@ -2804,7 +2879,12 @@ var render = function() {
                 _c("img", {
                   staticClass: "card-img-top",
                   staticStyle: { width: "80%", margin: "auto" },
-                  attrs: { src: company.company_logo }
+                  attrs: {
+                    src:
+                      company.company_logo === null
+                        ? "https://dummyimage.com/300.png/09f/fff"
+                        : "profile-pic/company/" + company.company_logo
+                  }
                 }),
                 _vm._v(" "),
                 _c("div", { staticClass: "card-body" }, [
@@ -2821,13 +2901,35 @@ var render = function() {
         0
       ),
       _vm._v(" "),
-      _c("a", { staticClass: "btn btn-sm btn-primary", attrs: { href: "#" } }, [
-        _vm._v("Prev")
-      ]),
+      _c(
+        "a",
+        {
+          staticClass: "btn btn-sm btn-primary",
+          attrs: { href: "#" },
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              return _vm.prevPage($event)
+            }
+          }
+        },
+        [_vm._v("Prev")]
+      ),
       _vm._v(" "),
-      _c("a", { staticClass: "btn btn-sm btn-primary", attrs: { href: "#" } }, [
-        _vm._v("Next")
-      ])
+      _c(
+        "a",
+        {
+          staticClass: "btn btn-sm btn-primary",
+          attrs: { href: "#" },
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              return _vm.nextPage($event)
+            }
+          }
+        },
+        [_vm._v("Next")]
+      )
     ]),
     _vm._v(" "),
     _vm._m(4)

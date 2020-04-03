@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"demo":"demo","demo0":"demo0","demo2":"demo2","demo4":"demo4"}[chunkId]||chunkId) + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"demo0":"demo0","demo2":"demo2","demo4":"demo4","vendors~demo":"vendors~demo","demo":"demo"}[chunkId]||chunkId) + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -83895,7 +83895,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   routes: [{
     path: '/',
     component: function component() {
-      return __webpack_require__.e(/*! import() | demo */ "demo").then(__webpack_require__.bind(null, /*! ./views/Home.vue */ "./resources/js/views/Home.vue"));
+      return Promise.all(/*! import() | demo */[__webpack_require__.e("vendors~demo"), __webpack_require__.e("demo")]).then(__webpack_require__.bind(null, /*! ./views/Home.vue */ "./resources/js/views/Home.vue"));
     }
   }, {
     path: '/dashboard',
@@ -83910,7 +83910,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: function component() {
-        return __webpack_require__.e(/*! import() | demo */ "demo").then(__webpack_require__.bind(null, /*! ./views/Dashboard.vue */ "./resources/js/views/Dashboard.vue"));
+        return Promise.all(/*! import() | demo */[__webpack_require__.e("vendors~demo"), __webpack_require__.e("demo")]).then(__webpack_require__.bind(null, /*! ./views/Dashboard.vue */ "./resources/js/views/Dashboard.vue"));
       }
     }, {
       path: '/employees',
@@ -83919,7 +83919,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
         requiresAuth: true
       },
       component: function component() {
-        return __webpack_require__.e(/*! import() | demo */ "demo").then(__webpack_require__.bind(null, /*! ./views/Employee.vue */ "./resources/js/views/Employee.vue"));
+        return Promise.all(/*! import() | demo */[__webpack_require__.e("vendors~demo"), __webpack_require__.e("demo")]).then(__webpack_require__.bind(null, /*! ./views/Employee.vue */ "./resources/js/views/Employee.vue"));
       }
     }, {
       path: '/profile',
@@ -83952,7 +83952,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
       name: 'maps',
       requiresAuth: true,
       component: function component() {
-        return __webpack_require__.e(/*! import() | demo */ "demo").then(__webpack_require__.bind(null, /*! ./views/Company */ "./resources/js/views/Company.vue"));
+        return Promise.all(/*! import() | demo */[__webpack_require__.e("vendors~demo"), __webpack_require__.e("demo")]).then(__webpack_require__.bind(null, /*! ./views/Company */ "./resources/js/views/Company.vue"));
       }
     }, {
       path: '/admin-users',
@@ -83961,7 +83961,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
         requiresAuth: true
       },
       component: function component() {
-        return __webpack_require__.e(/*! import() | demo */ "demo").then(__webpack_require__.bind(null, /*! ./views/AdminUsers */ "./resources/js/views/AdminUsers.vue"));
+        return Promise.all(/*! import() | demo */[__webpack_require__.e("vendors~demo"), __webpack_require__.e("demo")]).then(__webpack_require__.bind(null, /*! ./views/AdminUsers */ "./resources/js/views/AdminUsers.vue"));
       }
     }]
   }, {
@@ -83972,7 +83972,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
       path: '/login',
       name: 'login',
       component: function component() {
-        return __webpack_require__.e(/*! import() | demo */ "demo").then(__webpack_require__.bind(null, /*! ./views/Login.vue */ "./resources/js/views/Login.vue"));
+        return Promise.all(/*! import() | demo */[__webpack_require__.e("vendors~demo"), __webpack_require__.e("demo")]).then(__webpack_require__.bind(null, /*! ./views/Login.vue */ "./resources/js/views/Login.vue"));
       }
     }]
   }, {

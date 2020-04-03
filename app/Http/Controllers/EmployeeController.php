@@ -116,7 +116,7 @@ class EmployeeController extends Controller {
         $recordPerPage = isset($body['limit']) ? $body['limit'] : 0;
         $page = isset($body['page']) ? $body['page'] : "";
 
-        $employeeObj = $this->employeeModel->select(DB::raw('first_name,last_name,CONCAT("profile-pic/employee/",photo) 
+        $employeeObj = $this->employeeModel->select(DB::raw('first_name,last_name,photo  
         as profile_photo,company_id,user_id, user_id , (SELECT name FROM company where user_id = company_id) AS company_name, (SELECT email FROM users where id = user_id) AS email'));
 
         
@@ -229,7 +229,7 @@ class EmployeeController extends Controller {
 
     public function getProfile(Request $request){
         $form = $request->all();
-        $employee = $this->employeeModel->select(DB::raw('first_name,last_name,CONCAT("profile-pic/employee/",photo) 
+        $employee = $this->employeeModel->select(DB::raw('first_name,last_name, photo
         as profile_photo,company_id,user_id, user_id , (SELECT name FROM company where user_id = company_id) AS company_name, (SELECT email FROM users where id = user_id) AS email'))->where('user_id',$form['user']->id)->firstOrFail();
         return $this->responses::getSuccess(["user"=>$employee]);
     }
