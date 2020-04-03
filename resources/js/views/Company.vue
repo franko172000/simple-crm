@@ -128,7 +128,7 @@
                         <div class="text-center">
                             <base-button type="primary" @click.prevent="updateCompany" v-show="editMode" class="my-4">{{submitProgress ? 'Updating company...' : 'Update Company'}}</base-button><br />
                             <base-button type="primary" @click.prevent="addCompany" v-show="!editMode" class="my-4">{{submitProgress ? 'Adding company...' : 'Create Company'}}</base-button><br />
-                            <a href="#" @click.prevent="showModal = false">Close form</a>
+                            <a href="#" @click.prevent="closeForm">Close form</a>
                         </div>
               </form>
           </modal>
@@ -181,6 +181,10 @@
             this.showremoveBtn = false;
             this.logoSrc = null;
         },
+        closeForm(){
+          this.showModal = false,
+          this.editMode = this.editMode ? false : true;
+        },
         addCompany(){
           let data = new FormData();
           data.append('logo', this.$refs.filePic.files[0]);
@@ -225,6 +229,13 @@
                 this.getcompanies();
                 this.showModal = false;
                 this.submitProgress = false;
+                this.model.name = ""
+                this.model.contact_person = ""
+                this.model.url = ""
+                this.model.email = ""
+                this.model.user_id = ""
+                this.showModal = false;
+                this.editMode = false;
                 this.$notify({
                   type: 'success',
                   title: 'Company updated successfully'

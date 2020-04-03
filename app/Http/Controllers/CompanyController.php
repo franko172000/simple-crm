@@ -138,6 +138,14 @@ class CompanyController extends Controller {
             }
         }
     }
+
+    public function getProfile(Request $request){
+        $form = $request->all();
+        $company = $this->companyModel->select(DB::raw("name,contact_person,url,CONCAT('profile-pic/company/',logo) AS company_logo, 
+        user_id as companyid, (SELECT COUNT(*) AS total FROM employee WHERE company_id = companyid) AS employee_count, (SELECT email FROM users where id = companyid) AS email"))
+        ->where('user_id',$form['user']->id)->firstOrFail();
+        return $this->responses::getSuccess(["user"=>$company]);
+    }
     
     public function updateCompany(Request $request){
         $form = $request->all();
@@ -170,7 +178,7 @@ class CompanyController extends Controller {
                 if(isset($form['email']))
                     $userData["email"]=$form['email'];
                 if(isset($form['password']))
-                    $userData["email"]=$this->hash::make($form['password']);    
+                    $userData["password"]=$this->hash::make($form['password']);    
 
                 $this->userModel::where('id',$form['user_id'])->update($userData);
             }
@@ -189,6 +197,29 @@ class CompanyController extends Controller {
            
         }else{
             throw new ValidationException($validator);
+        }
+    }
+
+    public function uploadLogo(Request $request){
+        $form = $request->all();
+        $user =  $form['user'];
+        $filename = "";
+        if($request->hasFile('logo')){
+            $image = $request->file('logo');
+            $allowedImageTypes = ["image/jpeg","image/jpg","image/png","image/gif"];
+            $imageMime = $image->getMimeType();
+            if(!in_array($imageMime,$allowedImageTypes)){
+                return $this->responses::getBadRequest("Invalid image format");
+            }else{
+                $filename = time()."_".$user->id."_logo.".$image->getClientOriginalExtension();
+                $path = public_path("profile-pic/company/");
+                $image->move($path,$filename);
+                $result = $this->companyModel::where('user_id',$user->id)
+                ->update(["logo"=>$filename]);
+                return $this->responses::getSuccess([],"Image uploaded successfully");
+            }
+        }else{
+            return $this->responses::getBadRequest("Please upload photo");
         }
     }
 }

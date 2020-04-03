@@ -100,8 +100,7 @@
     </div>
 </template>
 <script>
-import adminRepo from '../../repository/users/AdminRepository';
-import tokenService from '../../services/TokenService';
+import employeeRepo from '../../repository/users/EmployeeRepository';
   export default {
     name: 'user-profile',
     data() {
@@ -121,10 +120,10 @@ import tokenService from '../../services/TokenService';
         logoSrc: null,
       }
     },
-    methods:{
+     methods:{
             updateUser(){
                 this.submitProgress = true;
-                adminRepo.updateUser(this.model)
+                employeeRepo.updateUser(this.model)
                 .then(res=>{
                     this.getUser();
                     this.showModal = false;
@@ -136,14 +135,13 @@ import tokenService from '../../services/TokenService';
             })
         },
         getUser(){
-                adminRepo.getProfile()
+                employeeRepo.getProfile()
                 .then(res=>{
                     let user = res.data.data.user;
                     this.model.first_name = user.first_name
                     this.model.last_name = user.last_name
                     this.model.email = user.email
                     this.model.user_id = user.user_id;
-                    this.model.role = user.role;
                     this.model.profile_photo = user.profile_photo;
                 })
         },
@@ -156,7 +154,7 @@ import tokenService from '../../services/TokenService';
             let data = new FormData();
             data.append('profile_photo', this.$refs.filePic.files[0]);
              this.uploadImgProgress = true
-            adminRepo.uploadPhoto(data)
+            employeeRepo.uploadPhoto(data)
             .then(res=>{
                 this.$notify({
                     type: 'success',

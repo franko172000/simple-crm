@@ -2,7 +2,7 @@ const TOKEN_KEY = "token";
 const USERNAME = "username";
 const USER_PHOTO = "user_photo";
 const USER_PHOTO_URL = "user_photo";
-const USER_EMAIL = "user_email";
+const ACCOUNT_TYPE = "type";
 const TokenService = {
     getAccessToken(){
         return localStorage.getItem(TOKEN_KEY);
@@ -12,6 +12,7 @@ const TokenService = {
     },
     setUserData(data){
         localStorage.setItem(USERNAME,data.name)
+        localStorage.setItem(ACCOUNT_TYPE,data.acct_type)
         // localStorage.setItem(USER_PHOTO,data.photo)
         // localStorage.setItem(USER_PHOTO_URL,data.photo_url)
         // localStorage.setItem(USER_EMAIL,data.email)
@@ -19,6 +20,7 @@ const TokenService = {
     getUserData(){
         return {
             name : localStorage.getItem(USERNAME),
+            type : localStorage.getItem(ACCOUNT_TYPE),
             // photo : localStorage.getItem(USER_PHOTO),
             // photo_url : localStorage.getItem(USER_PHOTO_URL),
             // email : localStorage.getItem(USER_EMAIL)

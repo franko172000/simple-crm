@@ -13,4 +13,10 @@ export default {
     deleteCompany(id){
         return apiService.delete(resources+'delete/'+id)
     },
+    getProfile(id){
+        return apiService.get(resources+'get-profile')
+    },
+    uploadPhoto(data){
+        return apiService.post(resources+'upload-logo',data)
+    },
 }

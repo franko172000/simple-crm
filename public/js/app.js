@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"vendors~demo":"vendors~demo","demo":"demo"}[chunkId]||chunkId) + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"demo0":"demo0","demo2":"demo2","demo4":"demo4","vendors~demo":"vendors~demo","demo":"demo"}[chunkId]||chunkId) + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -8135,8 +8135,10 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _DashboardNavbar_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DashboardNavbar.vue */ "./resources/js/layout/DashboardNavbar.vue");
-/* harmony import */ var _ContentFooter_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ContentFooter.vue */ "./resources/js/layout/ContentFooter.vue");
-/* harmony import */ var vue2_transitions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue2-transitions */ "./node_modules/vue2-transitions/dist/vue2-transitions.m.js");
+/* harmony import */ var _services_TokenService__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/TokenService */ "./resources/js/services/TokenService.js");
+/* harmony import */ var _services_TokenService__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_services_TokenService__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _ContentFooter_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ContentFooter.vue */ "./resources/js/layout/ContentFooter.vue");
+/* harmony import */ var vue2_transitions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue2-transitions */ "./node_modules/vue2-transitions/dist/vue2-transitions.m.js");
 //
 //
 //
@@ -8173,18 +8175,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     DashboardNavbar: _DashboardNavbar_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    ContentFooter: _ContentFooter_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    FadeTransition: vue2_transitions__WEBPACK_IMPORTED_MODULE_2__["FadeTransition"]
+    ContentFooter: _ContentFooter_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    FadeTransition: vue2_transitions__WEBPACK_IMPORTED_MODULE_3__["FadeTransition"]
   },
   data: function data() {
     return {
-      sidebarBackground: 'vue' //vue|blue|orange|green|red|primary
+      sidebarBackground: 'vue',
+      userType: _services_TokenService__WEBPACK_IMPORTED_MODULE_1___default.a.getUserData().type //vue|blue|orange|green|red|primary
 
     };
   },
@@ -42715,6 +42720,14 @@ var render = function() {
             { slot: "links" },
             [
               _c("sidebar-item", {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.userType === "admin",
+                    expression: "userType === 'admin'"
+                  }
+                ],
                 attrs: {
                   link: {
                     name: "Dashboard",
@@ -42725,6 +42738,15 @@ var render = function() {
               }),
               _vm._v(" "),
               _c("sidebar-item", {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value:
+                      _vm.userType === "admin" || _vm.userType === "company",
+                    expression: "userType === 'admin' || userType === 'company'"
+                  }
+                ],
                 attrs: {
                   link: {
                     name: "Employees",
@@ -42735,6 +42757,14 @@ var render = function() {
               }),
               _vm._v(" "),
               _c("sidebar-item", {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.userType === "admin",
+                    expression: "userType === 'admin'"
+                  }
+                ],
                 attrs: {
                   link: {
                     name: "Companies",
@@ -42745,6 +42775,14 @@ var render = function() {
               }),
               _vm._v(" "),
               _c("sidebar-item", {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.userType === "admin",
+                    expression: "userType === 'admin'"
+                  }
+                ],
                 attrs: {
                   link: {
                     name: "Admin Users",
@@ -42755,6 +42793,18 @@ var render = function() {
               }),
               _vm._v(" "),
               _c("sidebar-item", {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value:
+                      _vm.userType === "admin" ||
+                      _vm.userType === "company" ||
+                      _vm.userType === "employee",
+                    expression:
+                      "userType === 'admin' || userType === 'company' || userType === 'employee'"
+                  }
+                ],
                 attrs: {
                   link: {
                     name: "Profile",
@@ -42769,7 +42819,7 @@ var render = function() {
                   link: {
                     name: "Logout",
                     icon: "ni ni-key-25 text-info",
-                    path: "/login"
+                    path: "/logout"
                   }
                 }
               })
@@ -61008,12 +61058,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var _layout_DashboardLayout__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/layout/DashboardLayout */ "./resources/js/layout/DashboardLayout.vue");
 /* harmony import */ var _layout_AuthLayout__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/layout/AuthLayout */ "./resources/js/layout/AuthLayout.vue");
+/* harmony import */ var _services_TokenService__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/services/TokenService */ "./resources/js/services/TokenService.js");
+/* harmony import */ var _services_TokenService__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_services_TokenService__WEBPACK_IMPORTED_MODULE_4__);
+
 
 
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
-/* harmony default export */ __webpack_exports__["default"] = (new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
+var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   linkExactActiveClass: 'active',
   mode: 'history',
   routes: [{
@@ -61023,6 +61076,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
     children: [{
       path: '/dashboard',
       name: 'dashboard',
+      meta: {
+        requiresAuth: true
+      },
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -61032,24 +61088,51 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
     }, {
       path: '/employees',
       name: 'Employees',
+      meta: {
+        requiresAuth: true
+      },
       component: function component() {
         return Promise.all(/*! import() | demo */[__webpack_require__.e("vendors~demo"), __webpack_require__.e("demo")]).then(__webpack_require__.bind(null, /*! ./views/Employee.vue */ "./resources/js/views/Employee.vue"));
       }
     }, {
       path: '/profile',
       name: 'profile',
+      meta: {
+        requiresAuth: true
+      },
       component: function component() {
-        return Promise.all(/*! import() | demo */[__webpack_require__.e("vendors~demo"), __webpack_require__.e("demo")]).then(__webpack_require__.bind(null, /*! ./views/profile/UserProfile.vue */ "./resources/js/views/profile/UserProfile.vue"));
+        var type = _services_TokenService__WEBPACK_IMPORTED_MODULE_4___default.a.getUserData().type;
+        var component = "";
+
+        switch (type) {
+          case "admin":
+            component = "UserProfile.vue";
+            break;
+
+          case "employee":
+            component = "EmployeeProfile.vue";
+            break;
+
+          case "company":
+            component = "CompanyProfile.vue";
+            break;
+        }
+
+        return __webpack_require__("./resources/js/views/profile lazy recursive ^\\.\\/.*$")("./" + component);
       }
     }, {
       path: '/companies',
       name: 'maps',
+      requiresAuth: true,
       component: function component() {
         return Promise.all(/*! import() | demo */[__webpack_require__.e("vendors~demo"), __webpack_require__.e("demo")]).then(__webpack_require__.bind(null, /*! ./views/Company */ "./resources/js/views/Company.vue"));
       }
     }, {
       path: '/admin-users',
       name: 'tables',
+      meta: {
+        requiresAuth: true
+      },
       component: function component() {
         return Promise.all(/*! import() | demo */[__webpack_require__.e("vendors~demo"), __webpack_require__.e("demo")]).then(__webpack_require__.bind(null, /*! ./views/AdminUsers */ "./resources/js/views/AdminUsers.vue"));
       }
@@ -61064,15 +61147,150 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
       component: function component() {
         return Promise.all(/*! import() | demo */[__webpack_require__.e("vendors~demo"), __webpack_require__.e("demo")]).then(__webpack_require__.bind(null, /*! ./views/Login.vue */ "./resources/js/views/Login.vue"));
       }
-    }, {
-      path: '/register',
-      name: 'register',
-      component: function component() {
-        return Promise.all(/*! import() | demo */[__webpack_require__.e("vendors~demo"), __webpack_require__.e("demo")]).then(__webpack_require__.bind(null, /*! ./views/Register.vue */ "./resources/js/views/Register.vue"));
-      }
     }]
+  }, {
+    path: '/logout',
+    name: 'Logout',
+    meta: {
+      logout: true
+    }
   }]
-}));
+});
+router.beforeEach(function (to, from, next) {
+  if (to.matched.some(function (record) {
+    return record.meta.requiresAuth;
+  })) {
+    if (_services_TokenService__WEBPACK_IMPORTED_MODULE_4___default.a.getAccessToken() === null || _services_TokenService__WEBPACK_IMPORTED_MODULE_4___default.a.getAccessToken() === undefined) {
+      next({
+        path: './login',
+        params: {
+          nextUrl: to.fullPath
+        }
+      });
+    } else {
+      next();
+    }
+  } else if (to.matched.some(function (record) {
+    return record.meta.logout;
+  })) {
+    //remove access token
+    _services_TokenService__WEBPACK_IMPORTED_MODULE_4___default.a.removeAccessToken(); //redirect to login
+
+    window.location.href = './login';
+  } else {
+    next();
+  }
+});
+/* harmony default export */ __webpack_exports__["default"] = (router);
+
+/***/ }),
+
+/***/ "./resources/js/services/TokenService.js":
+/*!***********************************************!*\
+  !*** ./resources/js/services/TokenService.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var TOKEN_KEY = "token";
+var USERNAME = "username";
+var USER_PHOTO = "user_photo";
+var USER_PHOTO_URL = "user_photo";
+var ACCOUNT_TYPE = "type";
+var TokenService = {
+  getAccessToken: function getAccessToken() {
+    return localStorage.getItem(TOKEN_KEY);
+  },
+  setAccessToken: function setAccessToken(data) {
+    localStorage.setItem(TOKEN_KEY, data);
+  },
+  setUserData: function setUserData(data) {
+    localStorage.setItem(USERNAME, data.name);
+    localStorage.setItem(ACCOUNT_TYPE, data.acct_type); // localStorage.setItem(USER_PHOTO,data.photo)
+    // localStorage.setItem(USER_PHOTO_URL,data.photo_url)
+    // localStorage.setItem(USER_EMAIL,data.email)
+  },
+  getUserData: function getUserData() {
+    return {
+      name: localStorage.getItem(USERNAME),
+      type: localStorage.getItem(ACCOUNT_TYPE) // photo : localStorage.getItem(USER_PHOTO),
+      // photo_url : localStorage.getItem(USER_PHOTO_URL),
+      // email : localStorage.getItem(USER_EMAIL)
+
+    };
+  },
+  removeAccessToken: function removeAccessToken() {
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(USERNAME); // localStorage.removeItem(USER_PHOTO);
+    // localStorage.removeItem(USER_PHOTO_URL);
+    // localStorage.removeItem(USER_EMAIL);
+  },
+  getCsrfToken: function getCsrfToken() {
+    var metas = document.getElementsByTagName('meta');
+
+    for (var i = 0; i < metas.length; i++) {
+      if (metas[i].getAttribute('name') === 'csrf-token') {
+        return metas[i].getAttribute('content');
+      }
+    }
+  }
+};
+module.exports = TokenService;
+
+/***/ }),
+
+/***/ "./resources/js/views/profile lazy recursive ^\\.\\/.*$":
+/*!*******************************************************************!*\
+  !*** ./resources/js/views/profile lazy ^\.\/.*$ namespace object ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var map = {
+	"./CompanyProfile": [
+		"./resources/js/views/profile/CompanyProfile.vue",
+		"demo0"
+	],
+	"./CompanyProfile.vue": [
+		"./resources/js/views/profile/CompanyProfile.vue",
+		"demo0"
+	],
+	"./EmployeeProfile": [
+		"./resources/js/views/profile/EmployeeProfile.vue",
+		"demo2"
+	],
+	"./EmployeeProfile.vue": [
+		"./resources/js/views/profile/EmployeeProfile.vue",
+		"demo2"
+	],
+	"./UserProfile": [
+		"./resources/js/views/profile/UserProfile.vue",
+		"demo4"
+	],
+	"./UserProfile.vue": [
+		"./resources/js/views/profile/UserProfile.vue",
+		"demo4"
+	]
+};
+function webpackAsyncContext(req) {
+	if(!__webpack_require__.o(map, req)) {
+		return Promise.resolve().then(function() {
+			var e = new Error("Cannot find module '" + req + "'");
+			e.code = 'MODULE_NOT_FOUND';
+			throw e;
+		});
+	}
+
+	var ids = map[req], id = ids[0];
+	return __webpack_require__.e(ids[1]).then(function() {
+		return __webpack_require__(id);
+	});
+}
+webpackAsyncContext.keys = function webpackAsyncContextKeys() {
+	return Object.keys(map);
+};
+webpackAsyncContext.id = "./resources/js/views/profile lazy recursive ^\\.\\/.*$";
+module.exports = webpackAsyncContext;
 
 /***/ }),
 

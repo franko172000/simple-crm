@@ -176,6 +176,17 @@ class AdminController extends Controller {
             
             $result = $this->adminModel::where('user_id',$form['user_id'])
             ->update($data);
+
+            //udate account login detail
+            if(isset($form['email']) || isset($form['password'])){
+                $userData = [];
+                if(isset($form['email']))
+                    $userData["email"]=$form['email'];
+                if(isset($form['password']))
+                    $userData["password"]=$this->hash::make($form['password']);    
+
+                $this->userModel::where('id',$form['user_id'])->update($userData);
+            }
             
             if($result === 1){
                  //add conpamy data

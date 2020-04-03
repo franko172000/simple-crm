@@ -69,10 +69,13 @@ class UserController extends Controller{
                         $userData['name'] = $employee->first_name." ".$employee->last_name;
                     break;
                     case "company":
-                        $company = $this->employee::where('user_id',$user->id)->firstOrFail(['name']);
+                        $company = $this->company::where('user_id',$user->id)->firstOrFail(['name']);
                         $userData['name'] = $company->name;
                     break;
                 }
+
+                $userData['acct_type'] = $user->user_type;
+
                 return $this->responses::getSuccess(["user"=>$userData,"token"=>$jwt]);
             }else{
                 return $this->responses::getUnauthorized("Invalid login");

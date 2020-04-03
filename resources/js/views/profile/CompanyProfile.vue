@@ -18,7 +18,7 @@
                                 <div class="card-profile-image">
                                     <a href="#">
                                         <img v-if="this.logoSrc !== null" :src="this.logoSrc" class="rounded-circle">
-                                        <img v-if="this.logoSrc === null" :src="model.profile_photo" class="rounded-circle">
+                                        <img v-if="this.logoSrc === null" :src="model.logo" class="rounded-circle">
                                     </a>
                                 </div>
                             </div>
@@ -48,23 +48,31 @@
                         </div>
                         <template>
                             <form @submit.prevent>
-                                <h6 class="heading-small text-muted mb-4">User information</h6>
+                                <h6 class="heading-small text-muted mb-4">Company information</h6>
                                 <div class="pl-lg-4">
                                     <div class="row">
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-12">
                                             <base-input alternative=""
-                                                        label="First name"
-                                                        placeholder="First name"
+                                                        label="Name"
+                                                        placeholder="Name"
                                                         input-classes="form-control-alternative"
-                                                        v-model="model.first_name"
+                                                        v-model="model.name"
                                             />
                                         </div>
                                         <div class="col-lg-6">
                                             <base-input alternative=""
-                                                        label="Last name"
-                                                        placeholder="Last name"
+                                                        label="Contact Person"
+                                                        placeholder="Contact Person"
                                                         input-classes="form-control-alternative"
-                                                        v-model="model.last_name"
+                                                        v-model="model.contact_person"
+                                            />
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <base-input alternative=""
+                                                        label="Url"
+                                                        placeholder="Url"
+                                                        input-classes="form-control-alternative"
+                                                        v-model="model.url"
                                             />
                                         </div>
                                     </div>
@@ -80,8 +88,8 @@
                                         <div class="col-lg-6">
                                             <base-input alternative=""
                                                         label="Password"
-                                                        type="password"
                                                         placeholder=""
+                                                        type="password"
                                                         input-classes="form-control-alternative"
                                                         v-model="model.password"
                                             />
@@ -100,19 +108,18 @@
     </div>
 </template>
 <script>
-import adminRepo from '../../repository/users/AdminRepository';
-import tokenService from '../../services/TokenService';
+import companyRepo from '../../repository/users/CompanyRepository';
   export default {
     name: 'user-profile',
     data() {
       return {
         model: {
           email: '',
-          first_name: '',
-          last_name: '',
+          name: '',
+          contact_person: '',
           password: '',
-          role: '',
-          profile_photo: '',
+          url: '',
+          logo: '',
           user_id: '',
         },
         submitProgress:false,
@@ -124,43 +131,42 @@ import tokenService from '../../services/TokenService';
     methods:{
             updateUser(){
                 this.submitProgress = true;
-                adminRepo.updateUser(this.model)
+                companyRepo.updateCompany(this.model)
                 .then(res=>{
                     this.getUser();
                     this.showModal = false;
                     this.submitProgress = false;
                     this.$notify({
-                    type: 'success',
-                    title: 'Profile updated successfully'
+                        type: 'success',
+                        title: 'Profile updated successfully'
                     })
             })
         },
         getUser(){
-                adminRepo.getProfile()
+                companyRepo.getProfile()
                 .then(res=>{
                     let user = res.data.data.user;
-                    this.model.first_name = user.first_name
-                    this.model.last_name = user.last_name
+                    this.model.name = user.name
+                    this.model.contact_person = user.contact_person
                     this.model.email = user.email
-                    this.model.user_id = user.user_id;
-                    this.model.role = user.role;
-                    this.model.profile_photo = user.profile_photo;
+                    this.model.user_id = user.companyid;
+                    this.model.url = user.url;
+                    this.model.logo = user.company_logo;
                 })
         },
         triggerClick(){
             this.$refs.filePic.click();
-            
         },
         onSelectedPhoto(e){
             this.logoSrc =  URL.createObjectURL(e.target.files[0]);
             let data = new FormData();
-            data.append('profile_photo', this.$refs.filePic.files[0]);
+            data.append('logo', this.$refs.filePic.files[0]);
              this.uploadImgProgress = true
-            adminRepo.uploadPhoto(data)
+             companyRepo.uploadPhoto(data)
             .then(res=>{
                 this.$notify({
                     type: 'success',
-                    title: 'Photo updated successfully'
+                    title: 'Logo updated successfully'
                 })
                  this.uploadImgProgress = false
             })

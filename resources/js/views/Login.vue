@@ -62,6 +62,7 @@
                             let userData = res.data.data.user;
                                 tokenService.setUserData({
                                     name : userData.name,
+                                    acct_type: userData.acct_type
                                 });
                                 tokenService.setAccessToken(res.data.data.token)
 
@@ -69,8 +70,12 @@
                                 message:"Login successful",
                                 type:'success',
                                 animation:'slide'
-                            })   
-                            this.$router.push('./')
+                            });
+                            if(userData.acct_type === "admin"){
+                                this.$router.push('./')
+                            }else{
+                                this.$router.push('./profile')
+                            }
                         })
                         .catch(err=>{
                             if(err.status === 404){

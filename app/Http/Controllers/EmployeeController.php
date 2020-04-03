@@ -111,7 +111,7 @@ class EmployeeController extends Controller {
 
     public function getAllEmployees(Request $request){
         $body = $request->all();
-        $uer = $body['user'];
+        $user = $body['user'];
 
         $recordPerPage = isset($body['limit']) ? $body['limit'] : 0;
         $page = isset($body['page']) ? $body['page'] : "";
@@ -119,14 +119,15 @@ class EmployeeController extends Controller {
         $employeeObj = $this->employeeModel->select(DB::raw('first_name,last_name,CONCAT("profile-pic/employee/",photo) 
         as profile_photo,company_id,user_id, user_id , (SELECT name FROM company where user_id = company_id) AS company_name, (SELECT email FROM users where id = user_id) AS email'));
 
+        
         //check is user is a company
-        if($uer->user_type === "company"){
-            $employeeObj::where('company_id',$uer->user_id);
+        if($user->user_type === "company"){
+            $employeeObj->where('company_id',$user->id);
         }
 
         //check is user is an admin
-        if(isset($body['company_id']) && !empty($body['company_id'])  && $uer->user_type === "admin"){
-            $employeeObj::where('company_id',$body['company_id']);
+        if(isset($body['company_id']) && !empty($body['company_id'])  && $user->user_type === "admin"){
+            $employeeObj->where('company_id',$body['company_id']);
         }
 
         if(!empty($page)){
@@ -195,7 +196,7 @@ class EmployeeController extends Controller {
                 if(isset($form['email']))
                     $userData["email"]=$form['email'];
                 if(isset($form['password']))
-                    $userData["email"]=$this->hash::make($form['password']);    
+                    $userData["password"]=$this->hash::make($form['password']);    
 
                 $this->userModel::where('id',$form['user_id'])->update($userData);
             }
@@ -223,6 +224,36 @@ class EmployeeController extends Controller {
            
         }else{
             throw new ValidationException($validator);
+        }
+    }
+
+    public function getProfile(Request $request){
+        $form = $request->all();
+        $employee = $this->employeeModel->select(DB::raw('first_name,last_name,CONCAT("profile-pic/employee/",photo) 
+        as profile_photo,company_id,user_id, user_id , (SELECT name FROM company where user_id = company_id) AS company_name, (SELECT email FROM users where id = user_id) AS email'))->where('user_id',$form['user']->id)->firstOrFail();
+        return $this->responses::getSuccess(["user"=>$employee]);
+    }
+
+    public function uploadPic(Request $request){
+        $form = $request->all();
+        $user =  $form['user'];
+        $filename = "";
+        if($request->hasFile('profile_photo')){
+            $image = $request->file('profile_photo');
+            $allowedImageTypes = ["image/jpeg","image/jpg","image/png","image/gif"];
+            $imageMime = $image->getMimeType();
+            if(!in_array($imageMime,$allowedImageTypes)){
+                return $this->responses::getBadRequest("Invalid image format");
+            }else{
+                $filename = time()."_".$user->id."_photo.".$image->getClientOriginalExtension();
+                $path = public_path("profile-pic/employee/");
+                $image->move($path,$filename);
+                $result = $this->employeeModel::where('user_id',$user->id)
+                ->update(["photo"=>$filename]);
+                return $this->responses::getSuccess([],"Image uploaded successfully");
+            }
+        }else{
+            return $this->responses::getBadRequest("Please upload photo");
         }
     }
 }

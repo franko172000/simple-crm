@@ -123,7 +123,7 @@
                         <div class="text-center">
                             <base-button type="primary" @click.prevent="updateUser" v-show="editMode" class="my-4">{{submitProgress ? 'Updating users...' : 'Update User'}}</base-button><br />
                             <base-button type="primary" @click.prevent="addUser" v-show="!editMode" class="my-4">{{submitProgress ? 'Adding users...' : 'Create User'}}</base-button><br />
-                            <a href="#" @click.prevent="showModal = false">Close form</a>
+                            <a href="#" @click.prevent="closeForm">Close form</a>
                         </div>
               </form>
           </modal>
@@ -154,6 +154,10 @@
             this.model.user_id = row.user_id
             this.showModal = true;
             this.editMode = true;
+        },
+        closeForm(){
+          this.showModal = false,
+          this.editMode = this.editMode ? false : true;
         },
         getUsers(){
             adminRepo.getUsers()
@@ -208,6 +212,14 @@
                 this.getUsers();
                 this.showModal = false;
                 this.submitProgress = false;
+
+                this.model.first_name = ""
+                this.model.last_name = ""
+                this.model.email = ""
+                this.model.user_id = ""
+                this.showModal = false;
+                this.editMode = false;
+
                 this.$notify({
                   type: 'success',
                   title: 'User updated successfully'
@@ -227,7 +239,6 @@
                     })
               })
           })
-          
         }
     },
     mounted(){

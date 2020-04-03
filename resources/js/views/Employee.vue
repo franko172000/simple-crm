@@ -104,7 +104,7 @@
                         <div class="text-center">
                             <base-button type="primary" @click.prevent="updateEmployee" v-show="editMode" class="my-4">{{submitProgress ? 'Updating employee...' : 'Update Employee'}}</base-button><br />
                             <base-button type="primary" @click.prevent="addEmployee" v-show="!editMode" class="my-4">{{submitProgress ? 'Adding employee...' : 'Create Employee'}}</base-button><br />
-                            <a href="#" @click.prevent="showModal = false">Close form</a>
+                            <a href="#" @click.prevent="closeForm">Close form</a>
                         </div>
               </form>
           </modal>
@@ -133,13 +133,17 @@
                 this.employees = res.data.data.employees;
             })
         },
+        closeForm(){
+          this.showModal = false,
+          this.editMode = this.editMode ? false : true;
+        },
         editEmployee(row){
           
             this.model.first_name = row.first_name
             this.model.last_name = row.last_name
             this.model.email = row.email
             this.model.user_id = row.user_id
-            this.model.company_id = row.companyid
+            this.model.company_id = row.company_id
             this.showModal = true;
             this.editMode = true;
         },
@@ -180,20 +184,19 @@
         updateEmployee(){
           let data = new FormData();
           let file = this.$refs.filePic.files[0];
-          if(file !== undefined){
-              data.append('profile_image', this.$refs.filePic.files[0]);
-              for(let field in this.model){
-                data.append(field, this.model[field]);
-              }
-          }else{
-            data = this.model;
-          }
             this.submitProgress = true;
-            employeeRepo.updateEmployee(data)
+            employeeRepo.updateEmployee(this.model)
             .then(res=>{
                 this.getEmployee();
                 this.showModal = false;
                 this.submitProgress = false;
+                this.model.first_name = ""
+                this.model.last_name = ""
+                this.model.email = ""
+                this.model.user_id = ""
+                this.model.company_id = ""
+                this.showModal = false;
+                this.editMode = false;
                 this.$notify({
                   type: 'success',
                   title: 'Employee updated successfully'
