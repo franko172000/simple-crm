@@ -1,11 +1,6 @@
 <template>
     <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
         <div class="container-fluid">
-
-            <!--Toggler-->
-            <navbar-toggle-button @click.native="showSidebar">
-                <span class="navbar-toggler-icon"></span>
-            </navbar-toggle-button>
             <router-link class="navbar-brand" to="/">
                 <img src="img/crmLogo.png" class="navbar-brand-img" alt="...">
             </router-link>
@@ -17,7 +12,6 @@
                            aria-haspopup="true" aria-expanded="false">
                             <i class="ni ni-bell-55"></i>
                         </a>
-
                         <a class="dropdown-item" href="#">Action</a>
                         <a class="dropdown-item" href="#">Another action</a>
                         <div class="dropdown-divider"></div>
@@ -80,7 +74,7 @@
                     </slot>
                 </ul>
             </div>
-            </div>
+          </div>
     </nav>
 </template>
 <script>

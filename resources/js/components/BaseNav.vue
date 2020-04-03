@@ -34,9 +34,6 @@
 
   export default {
     name: "base-nav",
-    components: {
-      NavbarToggleButton
-    },
     props: {
       type: {
         type: String,
