@@ -10,7 +10,10 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      redirect: 'dashboard',
+      component: () => import(/* webpackChunkName: "demo" */ './views/Home.vue')
+    },
+    {
+      path: '/dashboard',
       component: DashboardLayout,
       children: [
         {

@@ -5,10 +5,11 @@ import App from './App.vue'
 import router from './router'
 import VueAlertify from 'vue-alertify'
 const VeeValidate   = require('vee-validate');
+import BootStrapVue  from 'bootstrap-vue'
 
 //import './registerServiceWorker'
 import CRMDashboard from './plugins/crmdashboard'
-
+Vue.use(BootStrapVue);
 Vue.use(VueAlertify,{
   // language resources
 glossary: {

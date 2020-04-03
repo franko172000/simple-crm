@@ -24,6 +24,7 @@ Route::prefix('/v1/user/')->group(function(){
     });
 });
 
+Route::get('/v1/public/get-companies', 'CompanyController@getCompanies');
 
 Route::prefix('/v1/company/')->group(function(){
     Route::group(['middleware' => ['jwt.auth','getUserFromToken']],function(){

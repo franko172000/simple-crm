@@ -567,6 +567,9 @@ var resources = '/company/';
   },
   uploadPhoto: function uploadPhoto(data) {
     return _services_ApiService__WEBPACK_IMPORTED_MODULE_0__["default"].post(resources + 'upload-logo', data);
+  },
+  getPublicCompanies: function getPublicCompanies() {
+    return _services_ApiService__WEBPACK_IMPORTED_MODULE_0__["default"].get('public/get-companies');
   }
 });
 

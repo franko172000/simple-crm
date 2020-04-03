@@ -19,4 +19,7 @@ export default {
     uploadPhoto(data){
         return apiService.post(resources+'upload-logo',data)
     },
+    getPublicCompanies(){
+        return apiService.get('public/get-companies')
+    },
 }
