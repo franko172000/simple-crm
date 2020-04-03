@@ -18,18 +18,22 @@ DB_PASSWORD=your database user password
 
 # Basic setup
 Install dependencies
-``` Composer install
+```bash
+ Composer install
 ```
 # Run Migrations
-``` php artisan migrate
+```bash
+ php artisan migrate
 ```
 # Seed Data
-``` php artisan db:seed
+```bash
+ php artisan db:seed
 ```
 
 # Admin Login
-``` email : admin@test.com
-	password: test
+```bash
+ email : admin@test.com
+ password: test
 ``` 
 
 # Author
