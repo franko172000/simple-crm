@@ -12,12 +12,12 @@
                     {{$route.name}}
                 </router-link>
             </slot>
-            <navbar-toggle-button v-if="showToggleButton"
+            <!-- <navbar-toggle-button v-if="showToggleButton"
                                   :toggled="toggled"
                                   :target="contentId"
                                   @click.native.stop="toggled = !toggled">
                 <span class="navbar-toggler-icon"></span>
-            </navbar-toggle-button>
+            </navbar-toggle-button> -->
 
             <div class="collapse navbar-collapse"
                  :class="{show: toggled}"
@@ -30,7 +30,7 @@
     </nav>
 </template>
 <script>
-  import NavbarToggleButton from "./NavbarToggleButton";
+  //import NavbarToggleButton from "./NavbarToggleButton";
 
   export default {
     name: "base-nav",

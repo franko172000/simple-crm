@@ -85,6 +85,10 @@ class UserController extends Controller{
         }
     }
 
+    public function getTotalUsers(){
+        $total = $this->userModel->count();
+        return $this->responses::getSuccess(["total_users"=>$total]);
+    }
     public function updateAccount(Request $request, $id = ""){
         $form = $request->all();
 

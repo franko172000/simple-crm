@@ -72,9 +72,10 @@
                                 animation:'slide'
                             });
                             if(userData.acct_type === "admin"){
-                                this.$router.push('./')
+                                window.location.href = "./"
                             }else{
-                                this.$router.push('./profile')
+                                window.location.href = "./profile"
+                                //this.$router.push('./profile')
                             }
                         })
                         .catch(err=>{

@@ -20,7 +20,7 @@ Route::prefix('/v1/user/')->group(function(){
     Route::post('login', 'UserController@login');
         
     Route::group(['middleware' => ['jwt.auth','getUserFromToken']],function(){
-        Route::put('update-account', 'UserController@updateAccount');
+        Route::get('get-total', 'UserController@getTotalUsers');
     });
 });
 

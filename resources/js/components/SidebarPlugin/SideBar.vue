@@ -7,7 +7,7 @@
                 <span class="navbar-toggler-icon"></span>
             </navbar-toggle-button>
             <router-link class="navbar-brand" to="/">
-                <img :src="logo" class="navbar-brand-img" alt="...">
+                <img src="img/crmLogo.png" class="navbar-brand-img" alt="...">
             </router-link>
 
             <slot name="mobile-right">
@@ -70,7 +70,7 @@
                             </router-link>
                         </div>
                         <div class="col-6 collapse-close">
-                            <navbar-toggle-button @click.native="closeSidebar"></navbar-toggle-button>
+                            <!-- <navbar-toggle-button @click.native="closeSidebar"></navbar-toggle-button> -->
                         </div>
                     </div>
                 </div>
@@ -84,12 +84,12 @@
     </nav>
 </template>
 <script>
-  import NavbarToggleButton from '@/components/NavbarToggleButton'
+  //import NavbarToggleButton from '@/components/NavbarToggleButton'
 
   export default {
     name: 'sidebar',
     components: {
-      NavbarToggleButton
+      //NavbarToggleButton
     },
     props: {
       logo: {

@@ -4,6 +4,7 @@ const USER_PHOTO = "user_photo";
 const USER_PHOTO_URL = "user_photo";
 const ACCOUNT_TYPE = "type";
 const TokenService = {
+    tempToken:null,
     getAccessToken(){
         return localStorage.getItem(TOKEN_KEY);
     },
