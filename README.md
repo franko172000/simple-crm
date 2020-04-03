@@ -1,4 +1,4 @@
-# Diagnosis app
+# CRM app
 This is a simple Laravel / Vuejs CRM app
 
 # Downloading the app
