@@ -61039,7 +61039,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
       path: '/profile',
       name: 'profile',
       component: function component() {
-        return Promise.all(/*! import() | demo */[__webpack_require__.e("vendors~demo"), __webpack_require__.e("demo")]).then(__webpack_require__.bind(null, /*! ./views/UserProfile.vue */ "./resources/js/views/UserProfile.vue"));
+        return Promise.all(/*! import() | demo */[__webpack_require__.e("vendors~demo"), __webpack_require__.e("demo")]).then(__webpack_require__.bind(null, /*! ./views/profile/UserProfile.vue */ "./resources/js/views/profile/UserProfile.vue"));
       }
     }, {
       path: '/companies',

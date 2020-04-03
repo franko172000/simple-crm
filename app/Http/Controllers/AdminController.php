@@ -17,6 +17,7 @@ class AdminController extends Controller {
     private $adminModel;
     private $userModel;
     private $validator;
+    private $responses;
     private $hash;
 
     public function __construct(AdminModel $admin, Validator $validator, User $userModel, Hash $hash, ServerResponses $responses){
@@ -54,7 +55,7 @@ class AdminController extends Controller {
             $allowedImageTypes = ["image/jpeg","image/jpg","image/png","image/gif"];
             $imageMime = $image->getMimeType();
             if(!in_array($imageMime,$allowedImageTypes)){
-                return $this->responses::getBadRequst("Invalid image format");
+                return $this->responses::getBadRequest("Invalid image format");
             }
         }
 
@@ -133,11 +134,18 @@ class AdminController extends Controller {
 
     public function getOneUser(Request $request, $id){
         if(empty($id)){
-            return $this->responses::getBadRequest("user id not set");
+            $admin = $this->adminModel::where('user_id',$id)->firstOrFail();
         }else{
             $admin = $this->adminModel::where('user_id',$id)->firstOrFail();
             return $this->responses::getSuccess(["user"=>$admin]);
         }
+    }
+
+    public function getProfile(Request $request){
+        $form = $request->all();
+        $admin = $adminObj = $this->adminModel::where('user_id',$form['user']->id)->select(DB::raw('first_name,last_name,CONCAT("profile-pic/admin/",photo) 
+        as profile_photo,user_id, role, (SELECT email FROM users where id = user_id) AS email'))->firstOrFail();
+        return $this->responses::getSuccess(["user"=>$admin]);
     }
     
     public function updateUser(Request $request){
@@ -180,6 +188,29 @@ class AdminController extends Controller {
            
         }else{
             throw new ValidationException($validator);
+        }
+    }
+
+    public function uploadPic(Request $request){
+        $form = $request->all();
+        $user =  $form['user'];
+        $filename = "";
+        if($request->hasFile('profile_photo')){
+            $image = $request->file('profile_photo');
+            $allowedImageTypes = ["image/jpeg","image/jpg","image/png","image/gif"];
+            $imageMime = $image->getMimeType();
+            if(!in_array($imageMime,$allowedImageTypes)){
+                return $this->responses::getBadRequest("Invalid image format");
+            }else{
+                $filename = time()."_".$user->id."_photo.".$image->getClientOriginalExtension();
+                $path = public_path("profile-pic/admin/");
+                $image->move($path,$filename);
+                $result = $this->adminModel::where('user_id',$user->id)
+                ->update(["photo"=>$filename]);
+                return $this->responses::getSuccess([],"Image uploaded successfully");
+            }
+        }else{
+            return $this->responses::getBadRequest("Please upload photo");
         }
     }
 }

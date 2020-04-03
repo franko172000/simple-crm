@@ -16,6 +16,7 @@ class EmployeeController extends Controller {
     private $employeeModel;
     private $userModel;
     private $validator;
+    private $responses;
     private $hash;
 
     public function __construct(Employee $employee, Validator $validator, User $userModel, Hash $hash, ServerResponses $responses){
@@ -54,7 +55,7 @@ class EmployeeController extends Controller {
             $allowedImageTypes = ["image/jpeg","image/jpg","image/png","image/gif"];
             $imageMime = $image->getMimeType();
             if(!in_array($imageMime,$allowedImageTypes)){
-                return $this->responses::getBadRequst("Invalid image format");
+                return $this->responses::getBadRequest("Invalid image format");
             }
         }
 

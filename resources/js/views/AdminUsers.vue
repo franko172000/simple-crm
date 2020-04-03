@@ -202,15 +202,6 @@
         updateUser(){
           let data = new FormData();
           let file = this.$refs.filePic.files[0];
-        //   if(file !== undefined){
-        //       data.append('profile_photo', this.$refs.filePic.files[0]);
-        //       for(let field in this.model){
-        //         data.append(field, this.model[field]);
-        //       }
-        //   }else{
-        //     data = this.model;
-        //   }
-        
             this.submitProgress = true;
             adminRepo.updateUser(this.model)
             .then(res=>{

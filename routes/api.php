@@ -48,8 +48,10 @@ Route::prefix('/v1/employee/')->group(function(){
 Route::prefix('/v1/admin/')->group(function(){
     Route::group(['middleware' => ['jwt.auth','getUserFromToken']],function(){
         Route::post('create-user', 'AdminController@createUser')->middleware('user.access:admin');
+        Route::post('upload-photo', 'AdminController@uploadPic')->middleware('user.access:admin');
         Route::get('get-all-users', 'AdminController@getAllAdminUsers')->middleware('user.access:admin');
         Route::get('get-user/{id}', 'AdminController@getOneUser')->middleware('user.access:admin');
+        Route::get('get-profile', 'AdminController@getProfile')->middleware('user.access:admin');
         Route::put('update', 'AdminController@updateUser')->middleware('user.access:admin');
         Route::delete('delete/{id}', 'AdminController@deleteAdminUser')->middleware('user.access:admin');
     });

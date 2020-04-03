@@ -29,7 +29,7 @@ export default new Router({
         {
           path: '/profile',
           name: 'profile',
-          component: () => import(/* webpackChunkName: "demo" */ './views/UserProfile.vue')
+          component: () => import(/* webpackChunkName: "demo" */ './views/profile/UserProfile.vue')
         },
         {
           path: '/companies',
