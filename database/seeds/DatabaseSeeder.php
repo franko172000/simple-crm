@@ -81,7 +81,7 @@ class DatabaseSeeder extends Seeder
         //read the data into an array
         $data = array_map('str_getcsv', file($file));
 
-        DB::table('employee')->truncate();
+        DB::table('admin')->truncate();
         //loop over the data
         foreach($data as $row) {
             $item = array([
